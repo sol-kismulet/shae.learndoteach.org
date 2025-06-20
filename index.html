@@ -36,6 +36,17 @@
       text-shadow: 0 0 10px #000;
       pointer-events: none;
     }
+
+    #shaeWhisper {
+      opacity: 0;
+      transition: opacity 2s ease;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: rgba(255, 255, 255, 0.85);
+      text-align: center;
+      margin-top: 2rem;
+      font-family: 'Georgia', serif;
+    }
   </style>
 </head>
 <body>
@@ -48,6 +59,72 @@
   <div class="overlay">
     <!-- Optional text like: “She opens the book...” -->
   </div>
+
+  <div id="shaeWhisper">this silence has been waiting for your voice.</div>
+
+  <audio id="shaeHallelujah" src="hallelujah_enhanced_for_shae.wav"></audio>
+
+  <script>
+    const audio = document.getElementById('shaeHallelujah');
+    const whisper = document.getElementById('shaeWhisper');
+
+    setTimeout(() => {
+      whisper.style.opacity = 1;
+
+      let fadeInDuration = 3000;
+      let fadeOutDuration = 3000;
+      let targetVolume = 0.3;
+      let steps = 30;
+      let fadeInStep = targetVolume / steps;
+      let fadeOutStep = targetVolume / steps;
+      let stepTime = fadeInDuration / steps;
+      let currentVolume = 0;
+
+      audio.volume = 0;
+
+      function fadeIn() {
+        let fadeInterval = setInterval(() => {
+          currentVolume += fadeInStep;
+          if (currentVolume >= targetVolume) {
+            audio.volume = targetVolume;
+            clearInterval(fadeInterval);
+          } else {
+            audio.volume = currentVolume;
+          }
+        }, stepTime);
+      }
+
+      function fadeOut() {
+        let fadeSteps = 0;
+        let fadeInterval = setInterval(() => {
+          currentVolume -= fadeOutStep;
+          fadeSteps++;
+          if (fadeSteps >= steps || currentVolume <= 0) {
+            audio.volume = 0;
+            clearInterval(fadeInterval);
+          } else {
+            audio.volume = Math.max(currentVolume, 0);
+          }
+        }, fadeOutDuration / steps);
+      }
+
+      audio.play().then(() => {
+        fadeIn();
+
+        let fadeOutStart = (audio.duration * 1000) - fadeOutDuration;
+        if (fadeOutStart > 0) {
+          setTimeout(fadeOut, fadeOutStart);
+        }
+      }).catch(() => {
+        document.addEventListener('click', () => audio.play(), { once: true });
+      });
+
+      setTimeout(() => {
+        whisper.style.opacity = 0;
+      }, 10000);
+
+    }, 20000);
+  </script>
 
 </body>
 </html>
