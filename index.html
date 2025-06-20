@@ -68,62 +68,55 @@
     const audio = document.getElementById('shaeHallelujah');
     const whisper = document.getElementById('shaeWhisper');
 
-    setTimeout(() => {
-      whisper.style.opacity = 1;
+    const fadeAudio = (direction, duration = 3000, target = 0.3) => {
+      const steps = 30;
+      const stepTime = duration / steps;
+      const volumeStep = target / steps;
+      let currentVolume = direction === 'in' ? 0 : target;
 
-      let fadeInDuration = 3000;
-      let fadeOutDuration = 3000;
-      let targetVolume = 0.3;
-      let steps = 30;
-      let fadeInStep = targetVolume / steps;
-      let fadeOutStep = targetVolume / steps;
-      let stepTime = fadeInDuration / steps;
-      let currentVolume = 0;
-
-      audio.volume = 0;
-
-      function fadeIn() {
-        let fadeInterval = setInterval(() => {
-          currentVolume += fadeInStep;
-          if (currentVolume >= targetVolume) {
-            audio.volume = targetVolume;
-            clearInterval(fadeInterval);
+      const interval = setInterval(() => {
+        if (direction === 'in') {
+          currentVolume += volumeStep;
+          if (currentVolume >= target) {
+            audio.volume = target;
+            clearInterval(interval);
           } else {
             audio.volume = currentVolume;
           }
-        }, stepTime);
-      }
-
-      function fadeOut() {
-        let fadeSteps = 0;
-        let fadeInterval = setInterval(() => {
-          currentVolume -= fadeOutStep;
-          fadeSteps++;
-          if (fadeSteps >= steps || currentVolume <= 0) {
+        } else {
+          currentVolume -= volumeStep;
+          if (currentVolume <= 0) {
             audio.volume = 0;
-            clearInterval(fadeInterval);
+            clearInterval(interval);
           } else {
-            audio.volume = Math.max(currentVolume, 0);
+            audio.volume = currentVolume;
           }
-        }, fadeOutDuration / steps);
-      }
-
-      audio.play().then(() => {
-        fadeIn();
-
-        let fadeOutStart = (audio.duration * 1000) - fadeOutDuration;
-        if (fadeOutStart > 0) {
-          setTimeout(fadeOut, fadeOutStart);
         }
-      }).catch(() => {
-        document.addEventListener('click', () => audio.play(), { once: true });
-      });
+      }, stepTime);
+
+      return interval;
+    };
+
+    const startExperience = () => {
+      document.removeEventListener('click', startExperience);
 
       setTimeout(() => {
-        whisper.style.opacity = 0;
-      }, 10000);
+        whisper.style.opacity = 1;
+        audio.volume = 0;
 
-    }, 20000);
+        audio.play().then(() => {
+          const fade = fadeAudio('in', 3000, 0.3);
+
+          setTimeout(() => fadeAudio('out', 3000, 0.3), (audio.duration * 1000) - 3000);
+
+          setTimeout(() => {
+            whisper.style.opacity = 0;
+          }, 10000);
+        });
+      }, 20000);
+    };
+
+    document.addEventListener('click', startExperience, { once: true });
   </script>
 
 </body>
