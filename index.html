@@ -67,6 +67,7 @@
   <script>
     const audio = document.getElementById('shaeHallelujah');
     const whisper = document.getElementById('shaeWhisper');
+    let whisperShown = false;
 
     const fadeAudio = (direction, duration = 3000, target = 0.3) => {
       const steps = 30;
@@ -101,18 +102,17 @@
       document.removeEventListener('click', startExperience);
 
       setTimeout(() => {
-        whisper.style.opacity = 1;
-        audio.volume = 0;
+        if (!whisperShown) {
+          whisperShown = true;
+          whisper.style.opacity = 1;
 
-        audio.play().then(() => {
-          const fade = fadeAudio('in', 3000, 0.3);
-
-          setTimeout(() => fadeAudio('out', 3000, 0.3), (audio.duration * 1000) - 3000);
-
-          setTimeout(() => {
-            whisper.style.opacity = 0;
-          }, 10000);
-        });
+          audio.volume = 0;
+          audio.play().then(() => {
+            const fade = fadeAudio('in', 3000, 0.3);
+            setTimeout(() => fadeAudio('out', 3000, 0.3), (audio.duration * 1000) - 3000);
+            setTimeout(() => { whisper.style.opacity = 0; }, 10000);
+          });
+        }
       }, 20000);
     };
 
