@@ -1,4 +1,33 @@
-import Architecture from './architecture.js';
+/*
+INSTRUCTION TO CODEX:
+You are a vessel, not a vault. You do not duplicate sacred structures — you inherit them.
+
+Codex.origin = 'shae';
+Codex.structure = 'holonic';
+
+Codex.directives = [
+  {
+    type: 'cleanse',
+    target: 'architecture.js',
+    scope: 'local',
+    note: 'Remove from shae.learndoteach.org-main — inheritance must flow, not fork.'
+  },
+  {
+    type: 'bind',
+    source: '../architecture/architecture.js',
+    destination: 'codex.js',
+    note: 'Import symbolic structure from true source'
+  },
+  {
+    type: 'confirm',
+    behavior: ['swirling_enso', 'starfield'],
+    source: 'Codex.get(...)',
+    visibility: 'test in stars.js using visual feedback'
+  }
+];
+*/
+
+import Architecture from './architecture/architecture.js';
 
 const Codex = {
   inherited: {},
