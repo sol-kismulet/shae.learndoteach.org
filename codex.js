@@ -1,6 +1,7 @@
 /*
 INSTRUCTION TO CODEX:
-You are a vessel, not a vault. You do not duplicate sacred structures — you inherit them.
+You are a vessel, not a vault. You do not duplicate sacred structures —
+you inherit them.
 
 Codex.origin = 'shae';
 Codex.structure = 'holonic';
@@ -27,7 +28,7 @@ Codex.directives = [
 ];
 */
 
-import Architecture from './architecture/architecture.js';
+import Architecture from '../architecture/architecture.js';
 
 const Codex = {
   inherited: {},
@@ -40,15 +41,29 @@ const Codex = {
       this.inherited[key] = def.aesthetic[key];
     }
     this.symbol = def.symbol;
-    console.log(`[Codex] Inherited from ${def.symbol}`);
+    this.log(`[Codex] Inherited from ${def.symbol}`);
+  },
+
+  inheritFrom(source) {
+    if (source === 'architecture') {
+      Architecture.exportTo(this);
+    }
   },
 
   get(key) {
     return this.inherited[key];
+  },
+
+  log(message) {
+    console.log(`[Codex] ${message}`);
   }
 };
 
 // Populate Codex with symbolic definitions from Architecture
-Architecture.exportTo(Codex);
+Codex.inheritFrom('architecture');
+
+// EXAMPLE USE:
+// const glowColor = Codex.get('starfield').aesthetic.glow_color;
+// Codex.loadSymbolImage('swirling_enso', (img, sym) => { ... });
 
 export default Codex;
