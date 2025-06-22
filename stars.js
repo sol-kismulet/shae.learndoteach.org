@@ -52,6 +52,11 @@ function drawStars() {
   ctx.fill();
   // Reset shadow so other stars are not affected
   ctx.shadowBlur = 0;
+
+  // If highlight logic is defined in enso.js, call it here
+  if (typeof drawHighlightStar === 'function') {
+    drawHighlightStar();
+  }
   requestAnimationFrame(drawStars);
 }
 
