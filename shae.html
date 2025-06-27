@@ -49,9 +49,27 @@
       You are warmly, quietly invited to step into the kismulet — not as a visitor, but as one who already belongs.
     </p>
     <p class="signature">
-      with reverence,<br>
-      Sol
+      with reverence,
     </p>
+    <div id="echo-field" class="signature" style="margin-top: 4rem;"></div>
   </div>
+  <script type="module">
+    import Codex from './codex.js';
+    import Echo from './glyphs/echo.js';
+
+    // Register the echo glyph if Codex provides a hook
+    if (typeof Codex.useGlyph === 'function') {
+      Codex.useGlyph('echo', Echo);
+    }
+
+    Echo.render('sol', {
+      numechoes: 4,
+      direction: 'down-right',
+      fadeMode: 'light-to-dark',
+      baseColor: '#ffffff',
+      echoColor: 'rgba(255,255,255,FADE)',
+      containerId: 'echo-field'
+    });
+  </script>
 </body>
 </html>
