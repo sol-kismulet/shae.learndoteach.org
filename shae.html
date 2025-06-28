@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>For Shae</title>
+  <link rel="stylesheet" href="https://architecture.kismulet.org/style/echo.css">
   <style>
     body {
       margin: 0;
@@ -32,7 +33,6 @@
       color: #aaa;
     }
   </style>
-  <link rel="stylesheet" href="https://architecture.kismulet.org/style/echo.css">
 </head>
 <body>
   <div class="container">
@@ -52,7 +52,7 @@
     <p class="signature">
       with reverence,
     </p>
-    <div id="echo-field" class="signature" style="position: relative; margin-top: 4rem; height: 5em;">
+    <div id="echo-field" class="echo-field">
       <span style="position: relative; z-index: 5;">sol</span>
     </div>
   </div>
@@ -60,12 +60,12 @@
     import Codex from 'https://architecture.kismulet.org/codex.js';
     import Echo from 'https://architecture.kismulet.org/glyphs/echo.js';
 
-    // Register the echo glyph if Codex provides a hook
     if (typeof Codex.useGlyph === 'function') {
       Codex.useGlyph('echo', Echo);
     }
 
-    Echo.render('sol', {
+    Echo.render({
+      seed: 'sol',
       numechoes: 4,
       direction: 'down-right',
       fadeMode: 'light-to-dark',
