@@ -56,15 +56,12 @@
       <span style="position: relative; z-index: 5;">sol</span>
     </div>
   </div>
-  <script type="module">
-    import Codex from 'https://architecture.kismulet.org/codex.js';
-    import Echo from 'https://architecture.kismulet.org/glyphs/echo.js';
+  <script src="https://architecture.kismulet.org/codex.js"></script>
+  <script src="https://architecture.kismulet.org/glyphs/echo.js"></script>
+  <script>
+    window.Codex.useGlyph('echo', window.Echo);
 
-    if (typeof Codex.useGlyph === 'function') {
-      Codex.useGlyph('echo', Echo);
-    }
-
-    Echo.render({
+    window.Echo.render({
       seed: 'sol',
       numechoes: 4,
       direction: 'down-right',
