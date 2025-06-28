@@ -51,7 +51,9 @@
     <p class="signature">
       with reverence,
     </p>
-    <div id="echo-field" class="signature" style="margin-top: 4rem;"></div>
+    <div id="echo-field" class="signature" style="position: relative; margin-top: 4rem; height: 5em;">
+      <span style="position: relative; z-index: 5;">sol</span>
+    </div>
   </div>
   <script type="module">
     import Codex from './codex.js';
@@ -62,8 +64,7 @@
       Codex.useGlyph('echo', Echo);
     }
 
-    Echo.render({
-      seed: 'sol',
+    Echo.render('sol', {
       numechoes: 4,
       direction: 'down-right',
       fadeMode: 'light-to-dark',
