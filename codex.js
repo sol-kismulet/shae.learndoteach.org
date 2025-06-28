@@ -9,13 +9,13 @@ Codex.structure = 'holonic';
 Codex.directives = [
   {
     type: 'cleanse',
-    target: 'architecture.js',
+    target: 'https://architecture.kismulet.org/architecture.js',
     scope: 'local',
     note: 'Remove from shae.learndoteach.org-main — inheritance must flow, not fork.'
   },
   {
     type: 'bind',
-    source: '../architecture/architecture.js',
+    source: 'https://architecture.kismulet.org/architecture.js',
     destination: 'codex.js',
     note: 'Import symbolic structure from true source'
   },
@@ -28,7 +28,7 @@ Codex.directives = [
 ];
 */
 
-import Architecture from '../architecture/architecture.js';
+import Architecture from 'https://architecture.kismulet.org/architecture.js';
 
 const Codex = {
   inherited: {},
