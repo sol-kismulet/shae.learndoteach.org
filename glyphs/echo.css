@@ -1,0 +1,25 @@
+/* echo.css — Shared glyph styles for echo-based rendering */
+
+/*
+INSTRUCTION TO CODEX:
+Register these styles for use with glyphs that produce echo drift, repetition, or echo fading.
+Ensure .echo-field is used as the parent container, and .echo-word is used for each echo element.
+Glyph renderers like echo.js may apply custom logic or direction modifiers dynamically.
+*/
+
+.echo-field {
+  position: relative;
+  display: inline-block;
+  height: 5em;
+  margin-top: 4rem;
+  white-space: pre;
+  font-family: Menlo, Courier, monospace;
+}
+
+.echo-word {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  white-space: pre;
+  font-family: inherit;
+}
