@@ -2,105 +2,58 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>you are invited</title>
+  <title>invited</title>
   <style>
-    body {
+    @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital@1&display=swap');
+    html, body {
       margin: 0;
-      padding: 2rem;
-      background-color: black;
-      color: white;
-      font-family: Menlo, Courier, monospace;
-      font-size: 1.1rem;
-      white-space: pre-wrap;
-      line-height: 1.6;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      overflow: hidden;
+      font-family: 'EB Garamond', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: #dddddd;
     }
-    .content {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    body.diagonal {
-      color: #cce8ff;
-      text-shadow: 0 0 8px #3fa9f5;
-    }
-    body.linear {
-      color: #ffe7a1;
-      text-shadow: 0 0 8px #ffc107;
-    }
-    body.irregular {
-      color: #888;
+
+    #word {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -100px);
+      opacity: 0;
+      pointer-events: none;
     }
   </style>
 </head>
 <body>
-  <div class="content">
-Shae,
-
-                                    imagine
-                  been difficult         imagine        possibilities
-   It hasn’t            difficult   to imagine the possibilities
-                          difficult                      possibilities
-
-                  hard
-                hard to imagine                     a fantasy?
-       is it hard    imagine   if it were all just     fantasy
-                      imagine.                           fantasy
-                                           challenge
-                                       challenge
-                                     challenge?                      or…
-          such a dilemma…             a puzzle?     or…
-                   dilemma                       puzzle.        or…
-                 dilemma                       puzzle.         or…
-                                                                      or…
-               a quiet quandary…                              or…
-                                                                      or…
-                                                                      or…
-                blessing                                       sacred
-              blessing  questions is          sacred start
-          blessing these questions       the sacred start
-                                questions.                       start
-
-                          with
-                        with               and allow…           surrender
-        to be with… to hold…     allow     in full surrender
-                             hold         allow               surrender
-                          hold
-              know                                             investment
-          know                     is a wise           investment
-      know that this care       wise           investment
-                         care       wise
-                       care
-
-
-you are seen seen seen
-
-thank you
-
-you are invited
-              invited
-              invited
-              invited
-  </div>
+  <div id="word">unbereft</div>
   <script>
-    function classifyPoem() {
-      const lines = document.querySelector('.content').innerText.split(/\n/);
-      const positions = lines.map(line => {
-        const match = line.match(/^(\s*)\S/);
-        return match ? match[1].length : null;
-      }).filter(pos => pos !== null);
-      if (positions.length < 2) return 'irregular';
-      const diffs = positions.slice(1).map((p, i) => p - positions[i]);
-      const firstDiff = diffs[0];
-      const allSame = diffs.every(d => d === firstDiff);
-      const diagonal = Math.abs(firstDiff) === 1 && allSame;
-      if (diagonal) return 'diagonal';
-      if (allSame) return 'linear';
-      return 'irregular';
+    function easeOutQuad(t) {
+      return t * (2 - t);
     }
-    window.addEventListener('DOMContentLoaded', () => {
-      const cls = classifyPoem();
-      document.body.classList.add(cls);
-    });
+
+    const word = document.getElementById('word');
+    const startY = -100;
+    const endY = window.innerHeight * 0.4;
+    const duration = 5000;
+    let startTime;
+
+    function animate(time) {
+      if (!startTime) startTime = time;
+      const progress = Math.min((time - startTime) / duration, 1);
+      const y = startY + easeOutQuad(progress) * (endY - startY);
+      const x = Math.sin(progress * Math.PI * 2) * 20;
+      word.style.transform = `translate(${x}px, ${y}px)`;
+      word.style.opacity = progress;
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    }
+
+    requestAnimationFrame(animate);
   </script>
 </body>
 </html>
