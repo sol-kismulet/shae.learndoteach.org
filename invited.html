@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>For Shae</title>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <title>Dear Shae</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
@@ -12,60 +12,53 @@
       background: black;
       color: white;
       font-family: 'EB Garamond', serif;
-      font-size: 1.2rem;
-      line-height: 1.8;
+      line-height: 1.6;
+    }
+    .section {
+      width: 100vw;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
+      padding: 2rem 0;
     }
-
-    .container {
-      max-width: 90vw;
-      margin-top: 15vh;
-      padding: 0 5vw;
+    .content {
+      max-width: 600px;
+      padding: 0 1rem;
     }
-
-    .salutation {
-      font-style: italic;
-      margin-bottom: 2rem;
+    .poem-block {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
     }
-
-    .main-paragraph {
-      max-width: 65ch;
-      margin-bottom: 4rem;
+    .poem {
+      text-align: left;
     }
-
-    .right-cascade {
-      position: absolute;
-      right: 10vw;
-      top: 23vh;
-      text-align: right;
-      font-style: italic;
-    }
-
-    .cascade-block span {
+    .line {
       display: block;
-      margin-bottom: 0.5em;
+    }
+    .italic {
+      font-style: italic;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <p class="salutation">Dear Shae,</p>
-    <div class="main-paragraph">
+  <div class="section">
+    <div class="content">
+      <p><span class="italic">Dear Shae,</span></p>
       <p>I’d like to start by sharing that your poetry moves me to tears,<br>
       and quite honestly I don’t know if prose has ever touched me so deeply.</p>
     </div>
   </div>
-  <div class="right-cascade cascade-block">
-    <span>a tear rolled</span>
-    <span>down the right</span>
-    <span>another down</span>
-    <span>the left</span>
-    <br>
-    <span>whole and holy</span>
-    <span>unbereft</span>
+
+  <div class="poem-block">
+    <div class="poem">
+      <span class="line italic">a tear rolled</span>
+      <span class="line italic">down the right</span>
+      <span class="line italic">another down</span>
+      <span class="line italic">the left</span>
+      <br>
+      <span class="line italic">whole and holy</span>
+      <span class="line italic">unbereft</span>
+    </div>
   </div>
 </body>
 </html>
