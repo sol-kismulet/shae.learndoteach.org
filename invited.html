@@ -24,12 +24,13 @@
       max-width: 600px;
       margin-bottom: 4rem;
     }
-    .poem {
+.poem {
       text-align: left;
       width: fit-content;
       margin-left: auto;
       margin-right: auto;
       margin-bottom: 4rem;
+      position: relative;
     }
     .poem div {
       text-align: left;
@@ -77,6 +78,30 @@
       display: block;
       text-indent: 6em;
     }
+    .poem:nth-of-type(1) div {
+      color: grey;
+    }
+    .overlay {
+      color: white;
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .show {
+      animation: fadeFloat 2s ease forwards;
+    }
+    @keyframes fadeFloat {
+      from {
+        opacity: 0;
+        transform: translateY(-0.5em);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
   </style>
 </head>
 <body>
@@ -94,6 +119,9 @@
 <br/>
 <div><em>whole and holy</em></div>
 <div><em>unbereft</em></div>
+<!-- Floating white overlay layer -->
+<div class="overlay" id="overlay-holy"><em>whole and holy</em></div>
+<div class="overlay" id="overlay-unbereft"><em>unbereft</em></div>
 </div>
 <div class="poem-left">
 <div><em>Something remembered</em></div>
@@ -185,5 +213,26 @@
 <span class="indent"> Let’s walk gently,</span>
 <span class="indent-2">one step at a time.</span>
 </div>
+<script>
+  window.addEventListener('load', () => {
+    const container = document.querySelector('.poem');
+    const baseHoly = container && container.children[2];
+    const baseUnbereft = container && container.children[3];
+    const holy = document.getElementById('overlay-holy');
+    const unbereft = document.getElementById('overlay-unbereft');
+
+    if (baseHoly && holy) {
+      holy.style.left = baseHoly.offsetLeft + 'px';
+      holy.style.top = baseHoly.offsetTop + 'px';
+    }
+    if (baseUnbereft && unbereft) {
+      unbereft.style.left = baseUnbereft.offsetLeft + 'px';
+      unbereft.style.top = baseUnbereft.offsetTop + 'px';
+    }
+
+    if (holy) setTimeout(() => holy.classList.add('show'), 1000);
+    if (unbereft) setTimeout(() => unbereft.classList.add('show'), 3000);
+  });
+</script>
 </body>
 </html>
