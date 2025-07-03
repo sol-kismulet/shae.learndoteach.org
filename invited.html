@@ -111,14 +111,48 @@
     <span>invited</span>
   </div>
 
-  <script src="feather.js"></script>
+<!-- Breathe button -->
+<button id="breathe-button" style="
+  margin-top: 2rem;
+  background: none;
+  border: 1px solid #666;
+  color: #dddddd;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  transition: opacity 1s ease;
+">
+  breathe
+</button>
+
+$1
   <script>
-    // Load falling feather
+  const button = document.getElementById('breathe-button');
+  const audio = document.getElementById('background-audio');
+  const docLink = document.getElementById('doc-link');
+
+  button.addEventListener('click', () => {
+    button.style.opacity = 0;
+    setTimeout(() => button.style.display = 'none', 1000);
+
+    if (audio) {
+      audio.play().catch(err => {
+        console.warn('Audio play blocked:', err);
+      });
+    }
+
+    if (docLink) {
+      setTimeout(() => docLink.style.opacity = 1, 2000);
+    }
+  });
+
+  // Load falling feather
     renderFeather(document.getElementById('feather-inline'));
   </script>
 
   <audio autoplay loop style="position: absolute; top: 1rem; left: 1rem;">
-    <source src="opus-23-in-f-major.wav" type="audio/mpeg">
+    <source src="opus-23-in-f-major.wav" type="audio/wav">
     Your browser does not support the audio element.
   </audio>
 
