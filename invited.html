@@ -104,5 +104,22 @@
     // Load falling feather
     renderFeather(document.getElementById('feather-inline'));
   </script>
+  <audio autoplay loop style="position: absolute; top: 1rem; left: 1rem;">
+  <source src="opus-23-in-f-major.wav" type="audio/wav">
+  Your browser does not support the audio element.
+</audio>
+
+<div id="doc-link" style="opacity: 0; margin-top: 4rem; transition: opacity 2s; color: #dddddd; font-size: 1.2rem;">
+  <a href="https://docs.google.com/document/d/1WF0NB9fnxhDPEi_arGSp18Kev9KXdoX-IePIE8KJgCQ/edit" target="_blank" rel="noopener noreferrer" style="color: #dddddd;">
+    Read or comment in the shared Google Doc
+  </a>
+</div>
+
+<script>
+  setTimeout(() => {
+    document.getElementById('doc-link').style.opacity = 1;
+  }, 6000); // Fade in after animation finishes
+</script>
+
 </body>
 </html>
