@@ -1,64 +1,189 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dear Shae</title>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet">
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>For Shae</title>
+<style>
     body {
       margin: 0;
-      padding: 0;
+      padding: 2rem;
       background: black;
       color: white;
-      font-family: 'EB Garamond', serif;
-      line-height: 1.6;
-    }
-    .section {
-      width: 100vw;
+      font-family: EB Garamond, serif;
+      font-size: 1.2rem;
+      line-height: 1.8;
       display: flex;
+      flex-direction: column;
       justify-content: center;
-      padding: 2rem 0;
+      align-items: flex-start;
+      min-height: 100vh;
     }
-    .content {
+    .block {
       max-width: 600px;
-      padding: 0 1rem;
-    }
-    .poem-block {
-      display: flex;
-      justify-content: center;
-      margin-top: 2rem;
+      margin-bottom: 4rem;
     }
     .poem {
       text-align: left;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 4rem;
     }
-    .line {
+    .poem div {
+      text-align: left;
+    }
+    .poem-right {
+      width: fit-content;
+      margin-left: auto;
+      margin-right: 10vw;
+    }
+    .poem-right div {
+      white-space: nowrap;
+      text-align: left;
+    }
+    .poem-left {
+      width: fit-content;
+      margin-right: auto;
+      margin-left: 10vw;
+      margin-bottom: 4rem; /* Add vertical space below */
+    }
+
+    .poem-left div {
+      text-align: left;
+    }
+    .indent {
       display: block;
+      text-indent: 1em;
     }
-    .italic {
-      font-style: italic;
+    .indent-2 {
+      display: block;
+      text-indent: 2em;
+    }
+    .indent-3 {
+      display: block;
+      text-indent: 3em;
+    }
+    .indent-4 {
+      display: block;
+      text-indent: 4em;
+    }
+    .indent-5 {
+      display: block;
+      text-indent: 5em;
+    }
+    .indent-6 {
+      display: block;
+      text-indent: 6em;
     }
   </style>
 </head>
 <body>
-  <div class="section">
-    <div class="content">
-      <p><span class="italic">Dear Shae,</span></p>
-      <p>I’d like to start by sharing that your poetry moves me to tears,<br>
-      and quite honestly I don’t know if prose has ever touched me so deeply.</p>
-    </div>
-  </div>
-
-  <div class="poem-block">
-    <div class="poem">
-      <span class="line italic">a tear rolled</span>
-      <span class="line italic">down the right</span>
-      <span class="line italic">another down</span>
-      <span class="line italic">the left</span>
-      <br>
-      <span class="line italic">whole and holy</span>
-      <span class="line italic">unbereft</span>
-    </div>
-  </div>
+<div class="block">
+<p><em>Dear Shae,</em></p>
+<p>
+      I’d like to start by sharing that your poetry moves me to tears,<br/>
+<span class="indent">and quite honestly,</span>
+<span class="indent-2">I don’t know if prose has ever touched me so deeply.</span>
+</p>
+</div>
+<div class="poem">
+<div><em>a tear rolled down the right</em></div>
+<div><em>another down the left</em></div>
+<br/>
+<div><em>whole and holy</em></div>
+<div><em>unbereft</em></div>
+</div>
+<div class="poem-left">
+<div><em>Something remembered</em></div>
+<div><em>And since forgotten</em></div>
+</div>
+<div class="block">
+<p>For me, this feels visceral;</p>
+<p style="margin-left: 2em;">somatic.</p>
+<p>
+      It reminds me of flying home to Minneapolis this past Sunday.<br/>
+<span class="indent">There was a sensation I noticed in my chest.
+        <span class="indent-2">It felt uncomfortable and a little overwhelming.
+          <span class="indent-3">Curious about this, I tried to describe it.</span>
+</span>
+</span>
+</p>
+<p style="margin-left: 4em; font-style: italic;">
+      “Like sitting by a warm fire… not hot. Just warm”
+    </p>
+<p>
+<span class="indent">I laughed when I realized that it didn’t sound uncomfortable at all.
+        <span class="indent-2">But it was like the difference between anxiety and excitement.
+          <span class="indent-3">So I opened to it, and softened around it…</span>
+</span>
+</span>
+</p>
+<p style="margin-left: 4em; font-style: italic;">
+<em>“you are welcome here… what are you trying to say?”</em>
+</p>
+</div>
+<div class="block">
+<p>
+<span class="indent">It didn’t need to be named yet, but I chose to soften around it.
+          <span class="indent-2">Something changed.
+            <span class="indent-3">Not the sensation, but the container holding it.</span>
+</span>
+</span>
+</p>
+</div>
+<!-- Right-aligned poetic pair -->
+<div class="poem">
+<div><em>a tear rolled down the left</em></div>
+<div><em>another down the right</em></div>
+<br/>
+<div><em>like twin stars</em></div>
+<div><em>falling in the night</em></div>
+</div>
+<!-- Left-aligned memory fragment -->
+<div class="poem-left" style="margin-top: 3rem;">
+<div><em>Walking in a memory</em></div>
+<div><em>Quiet forest</em></div>
+<div><em>Quick heartbeat</em></div>
+<div><em>Calling out, no sound</em></div>
+</div>
+<!-- Center-aligned prose -->
+<div class="block">
+<span style="display: block; margin-bottom: 0;">I felt this deeply:</span>
+<span class="indent">a rush of sensation along the back of my neck,</span>
+<span class="indent-2">then across my shoulders and then into my heartspace.</span>
+<span class="indent-3">I don’t need to give it meaning,</span>
+<span class="indent-4">but someplace within me remembers too.</span>
+</div>
+<!-- Top-left poem -->
+<div class="poem-left">
+<div><em>Awake from a dream</em></div>
+<div><em>Dreaming in the wake</em></div>
+<div><em>Of silence</em></div>
+<div><em>Between</em></div>
+<div><em>Depth and despair</em></div>
+<div><em>Holy and unfair</em></div>
+</div>
+<!-- Center-aligned reflective prose -->
+<div class="block">
+<span style="display: block; margin-bottom: 0;">Something about this hits like lightning.</span>
+<span class="indent">Hmmm... this <em>and</em> that.</span>
+<span class="indent-2">Like a glass of water, just out of reach.</span>
+</div>
+<!-- Bottom-left poem -->
+<div class="poem-left">
+<div><em>Right where</em></div>
+<div><em>We begin</em></div>
+<div><em>Silence</em></div>
+<div><em>Between</em></div>
+<div><em>Awake, in a dream</em></div>
+</div>
+<!-- Closing words -->
+<div class="block" style="text-align: center; margin-top: 4rem;">
+  I’m here with you.<br/>
+<span class="indent"> Let’s walk gently,</span>
+<span class="indent-2">one step at a time.</span>
+</div>
 </body>
 </html>
