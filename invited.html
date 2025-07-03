@@ -126,7 +126,7 @@
   breathe
 </button>
 
-$1
+
   <script>
   const button = document.getElementById('breathe-button');
   const audio = document.getElementById('background-audio');
@@ -151,10 +151,10 @@ $1
     renderFeather(document.getElementById('feather-inline'));
   </script>
 
-  <audio autoplay loop style="position: absolute; top: 1rem; left: 1rem;">
-    <source src="opus-23-in-f-major.wav" type="audio/wav">
-    Your browser does not support the audio element.
-  </audio>
+  <audio id="background-audio" loop style="position: absolute; top: 1rem; left: 1rem;">
+  <source src="opus-23-in-f-major.wav" type="audio/wav">
+  Your browser does not support the audio element.
+</audio>
 
   <div id="doc-link">
     <a href="https://docs.google.com/document/d/1WF0NB9fnxhDPEi_arGSp18Kev9KXdoX-IePIE8KJgCQ/edit" target="_blank" rel="noopener noreferrer">
@@ -162,10 +162,6 @@ $1
     </a>
   </div>
 
-  <script>
-    setTimeout(() => {
-      document.getElementById('doc-link').style.opacity = 1;
-    }, 6000); // Fade in after animation finishes
-  </script>
+  
 </body>
 </html>
