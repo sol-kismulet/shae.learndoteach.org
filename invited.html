@@ -2,106 +2,79 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>invited</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dear Shae</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital@1&display=swap');
-    html, body {
+    @import url('https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap');
+
+    body {
       margin: 0;
       padding: 0;
-      width: 100%;
-      height: 100%;
       background: black;
-      overflow: hidden;
+      color: white;
       font-family: 'EB Garamond', serif;
-      font-style: italic;
-      font-size: 1.2rem;
-      color: #dddddd;
+      position: relative;
+      height: 100vh;
+      overflow-x: hidden;
     }
 
-    #word {
+    .anchor {
       position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translate(-50%, -100px);
-      opacity: 0;
-      pointer-events: none;
+      color: #777;
+      white-space: pre-wrap;
+      font-size: 1.25rem;
+      line-height: 1.6;
     }
 
-    #word2 {
+    .text {
       position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translate(-50%, -100px);
+      color: white;
+      white-space: pre-wrap;
+      font-size: 1.25rem;
+      line-height: 1.6;
       opacity: 0;
-      pointer-events: none;
+      animation: fadeIn 4s ease forwards;
     }
 
-    #letter1, #letter2 {
-      position: absolute;
-      left: 10%;
-      width: 80%;
-      font-family: 'EB Garamond', serif;
-      font-style: italic;
-      font-size: 1.1rem;
-      color: #dddddd;
-      opacity: 0;
-    }
-
-    #letter1 {
-      top: 55vh;
-      animation: fadeIn1 2s forwards;
-    }
-
-    #letter2 {
-      top: 60vh;
-      animation: fadeIn2 2.5s 1.5s forwards;
-    }
-
-    @keyframes fadeIn1 {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes fadeIn2 {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
     }
   </style>
 </head>
 <body>
-  <div id="word">unbereft</div>
-  <div id="word2">whole and holy</div>
-  <div id="letter1">Dear Shae,</div>
-  <div id="letter2">I’d like to start by sharing that your poetry moved me to tears, and quite honestly I don’t know if prose has ever touched me so deeply.</div>
-  <script>
-    function easeOutQuad(t) {
-      return t * (2 - t);
-    }
+  <div class="anchor" style="top: 5vh; left: 8vw; font-style: italic;">Dear Shae,</div>
+  <div class="text" style="top: 5vh; left: 8vw; font-style: italic; animation-delay: 0.5s;">Dear Shae,</div>
 
-    const word = document.getElementById("word");
-    const word2 = document.getElementById("word2");
-    const startY = -100;
-    const endY = window.innerHeight * 0.4;
-    const duration = 5000;
+  <div class="anchor" style="top: 11vh; left: 8vw; width: 80vw;">I’d like to start by sharing that your poetry moves me to tears,
+and quite honestly I don’t know if prose has ever touched me so deeply.</div>
+  <div class="text" style="top: 11vh; left: 8vw; width: 80vw; animation-delay: 1s;">I’d like to start by sharing that your poetry moves me to tears,
+and quite honestly I don’t know if prose has ever touched me so deeply.</div>
 
-    function animateElement(el, finalY, delay = 0) {
-      let startTime;
-      function step(time) {
-        if (!startTime) startTime = time;
-        const progress = Math.min((time - startTime) / duration, 1);
-        const y = startY + easeOutQuad(progress) * (finalY - startY);
-        const x = Math.sin(progress * Math.PI * 2) * 20;
-        el.style.transform = `translate(${x}px, ${y}px)`;
-        el.style.opacity = progress;
-        if (progress < 1) {
-          requestAnimationFrame(step);
-        }
-      }
-      setTimeout(() => requestAnimationFrame(step), delay);
-    }
+  <div class="anchor" style="top: 20vh; right: 8vw; text-align: right; font-style: italic;">
+a tear rolled
+down the right
+another down
+the left
+  </div>
+  <div class="text" style="top: 20vh; right: 8vw; text-align: right; font-style: italic; animation-delay: 2s;">
+a tear rolled
+down the right
+another down
+the left
+  </div>
 
-    animateElement(word, endY);
-    animateElement(word2, endY - 50, 4000);
-  </script>
+  <div class="anchor" style="top: 29vh; right: 12vw; text-align: center; font-style: italic;">
+whole and holy
+unbereft
+  </div>
+  <div class="text" style="top: 29vh; right: 12vw; text-align: center; font-style: italic; animation-delay: 3s;">
+whole and holy
+unbereft
+  </div>
+
+<!-- Extend this structure for the rest of the letter -->
+
 </body>
 </html>
