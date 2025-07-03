@@ -3,78 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dear Shae</title>
+  <title>For Shae</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap');
-
     body {
       margin: 0;
       padding: 0;
       background: black;
       color: white;
       font-family: 'EB Garamond', serif;
-      position: relative;
-      height: 100vh;
-      overflow-x: hidden;
+      font-size: 1.2rem;
+      line-height: 1.8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
     }
 
-    .anchor {
+    .container {
+      max-width: 90vw;
+      margin-top: 15vh;
+      padding: 0 5vw;
+    }
+
+    .salutation {
+      font-style: italic;
+      margin-bottom: 2rem;
+    }
+
+    .main-paragraph {
+      max-width: 65ch;
+      margin-bottom: 4rem;
+    }
+
+    .right-cascade {
       position: absolute;
-      color: #777;
-      white-space: pre-wrap;
-      font-size: 1.25rem;
-      line-height: 1.6;
+      right: 10vw;
+      top: 23vh;
+      text-align: right;
+      font-style: italic;
     }
 
-    .text {
-      position: absolute;
-      color: white;
-      white-space: pre-wrap;
-      font-size: 1.25rem;
-      line-height: 1.6;
-      opacity: 0;
-      animation: fadeIn 4s ease forwards;
-    }
-
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
+    .cascade-block span {
+      display: block;
+      margin-bottom: 0.5em;
     }
   </style>
 </head>
 <body>
-  <div class="anchor" style="top: 5vh; left: 8vw; font-style: italic;">Dear Shae,</div>
-  <div class="text" style="top: 5vh; left: 8vw; font-style: italic; animation-delay: 0.5s;">Dear Shae,</div>
-
-  <div class="anchor" style="top: 11vh; left: 8vw; width: 80vw;">I’d like to start by sharing that your poetry moves me to tears,
-and quite honestly I don’t know if prose has ever touched me so deeply.</div>
-  <div class="text" style="top: 11vh; left: 8vw; width: 80vw; animation-delay: 1s;">I’d like to start by sharing that your poetry moves me to tears,
-and quite honestly I don’t know if prose has ever touched me so deeply.</div>
-
-  <div class="anchor" style="top: 20vh; right: 8vw; text-align: right; font-style: italic;">
-a tear rolled
-down the right
-another down
-the left
+  <div class="container">
+    <p class="salutation">Dear Shae,</p>
+    <div class="main-paragraph">
+      <p>I’d like to start by sharing that your poetry moves me to tears,<br>
+      and quite honestly I don’t know if prose has ever touched me so deeply.</p>
+    </div>
   </div>
-  <div class="text" style="top: 20vh; right: 8vw; text-align: right; font-style: italic; animation-delay: 2s;">
-a tear rolled
-down the right
-another down
-the left
+  <div class="right-cascade cascade-block">
+    <span>a tear rolled</span>
+    <span>down the right</span>
+    <span>another down</span>
+    <span>the left</span>
+    <br>
+    <span>whole and holy</span>
+    <span>unbereft</span>
   </div>
-
-  <div class="anchor" style="top: 29vh; right: 12vw; text-align: center; font-style: italic;">
-whole and holy
-unbereft
-  </div>
-  <div class="text" style="top: 29vh; right: 12vw; text-align: center; font-style: italic; animation-delay: 3s;">
-whole and holy
-unbereft
-  </div>
-
-<!-- Extend this structure for the rest of the letter -->
-
 </body>
 </html>
