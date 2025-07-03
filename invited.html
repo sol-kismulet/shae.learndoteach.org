@@ -26,34 +26,49 @@
       opacity: 0;
       pointer-events: none;
     }
+
+    #word2 {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -100px);
+      opacity: 0;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
   <div id="word">unbereft</div>
+  <div id="word2">whole and holy</div>
   <script>
     function easeOutQuad(t) {
       return t * (2 - t);
     }
 
-    const word = document.getElementById('word');
+    const word = document.getElementById("word");
+    const word2 = document.getElementById("word2");
     const startY = -100;
     const endY = window.innerHeight * 0.4;
     const duration = 5000;
-    let startTime;
 
-    function animate(time) {
-      if (!startTime) startTime = time;
-      const progress = Math.min((time - startTime) / duration, 1);
-      const y = startY + easeOutQuad(progress) * (endY - startY);
-      const x = Math.sin(progress * Math.PI * 2) * 20;
-      word.style.transform = `translate(${x}px, ${y}px)`;
-      word.style.opacity = progress;
-      if (progress < 1) {
-        requestAnimationFrame(animate);
+    function animateElement(el, finalY, delay = 0) {
+      let startTime;
+      function step(time) {
+        if (!startTime) startTime = time;
+        const progress = Math.min((time - startTime) / duration, 1);
+        const y = startY + easeOutQuad(progress) * (finalY - startY);
+        const x = Math.sin(progress * Math.PI * 2) * 20;
+        el.style.transform = `translate(${x}px, ${y}px)`;
+        el.style.opacity = progress;
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        }
       }
+      setTimeout(() => requestAnimationFrame(step), delay);
     }
 
-    requestAnimationFrame(animate);
+    animateElement(word, endY);
+    animateElement(word2, endY - 50, 4000);
   </script>
 </body>
 </html>
