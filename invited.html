@@ -1,125 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>For Shae</title>
-  <link rel="stylesheet" href="breathe.css">
-  <!--
-  We are currently using grey as the base text color to preserve the visual alignment of static anchor text.
-  This allows us to layer white floating text directly on top of its grey counterpart.
-  In future revisions, the base may be changed to black or transparent to preserve spatial integrity
-  while making the overlays feel like true arrivals.
--->
-
-<style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>learndoteach.org</title>
+  <style>
     body {
+      margin: 0;
       background: black;
-      color: grey;
-      font-family: EB Garamond, serif;
-      font-size: 1.2rem;
-      line-height: 1.8;
-      padding: 2rem;
-    }
-    .poem {
-      text-align: left;
-      width: fit-content;
-      margin: 0 auto 4rem auto;
-      position: relative;
-    }
-    .poem div {
-      text-align: left;
-    }
-    .overlay {
       color: white;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #line {
+      display: flex;
+      gap: 0.4rem;
+      align-items: center;
+    }
+
+    .feather-wrapper {
+      position: relative;
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      vertical-align: middle;
+    }
+
+    .feather-inline {
       position: absolute;
-      left: 0;
       top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .feather {
+      width: 100%;
+      height: 100%;
       opacity: 0;
-      pointer-events: none;
+      transform: translate3d(0, -3em, 0) rotateZ(0deg) rotateY(0deg);
+      will-change: transform, opacity;
+      transform-origin: center;
     }
-    .show {
-      animation: fadeFloat 2s ease-out forwards;
+
+    .feather-animate {
+      opacity: 1;
+      animation: featherFall 6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
     }
-    @keyframes fadeFloat {
+
+    @keyframes featherFall {
       0% {
-        opacity: 0;
-        transform: translate(-0.25em, -1em);
+        transform: translate3d(0, -3em, 0) rotateZ(0deg) rotateY(0deg);
       }
+
+      10% {
+        transform: translate3d(0, -2.7em, 0) rotateZ(2deg) rotateY(-1deg);
+      }
+
+      20% {
+        transform: translate3d(0, -2em, 0) rotateZ(3deg) rotateY(-2deg);
+      }
+
+      45% {
+        transform: translate3d(0, -1em, 0) rotateZ(-2deg) rotateY(3deg);
+      }
+
       70% {
-        opacity: 1;
-        transform: translate(0.25em, 0);
+        transform: translate3d(0, -0.2em, 0) rotateZ(1deg) rotateY(-1deg);
       }
+
       100% {
-        opacity: 1;
-        transform: translate(0, 0);
+        transform: translate3d(0, 0, 0) rotateZ(0deg) rotateY(0deg);
       }
+    }
+
+    svg path {
+      fill: none;
+      stroke: white;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
   </style>
 </head>
 <body>
-
-  <!-- Codex Instruction: All floating text animations should be added as non-destructive overlays using absolutely positioned elements with the class 'overlay'. These overlays must match the content and position of their base layer and animate via the 'fadeFloat' keyframe only. Timing logic must be defined in breathe.js or inline with 'show' class triggers. Never modify base HTML text or structure. -->
-
-  <!--
-Codex Instruction:
-
-Animate the word “unbereft” to float softly into view, using the motion and timing logic from `feather-test.html` in the emptiness-scroll project.
-
-Requirements:
-- Begin with the word offscreen above its final position.
-- Animation should include:
-  - Vertical descent with easing (`ease-out`)
-  - Gentle horizontal sway (e.g. translateX curve)
-  - Opacity fade-in from 0 → 1
-- Once the word lands, it should stop moving and remain visible.
-- The word must not disrupt the layout of surrounding text.
-- Do not use absolute positioning unless anchoring to a transparent counterpart.
-- Text styling:
-  - Font: EB Garamond
-  - Italic
-  - Font size: 1.2rem
-  - Color: #dddddd
-  - Background: black
-
-Place the floating word “unbereft” where it visually aligns with the placeholder beneath (which may be `visibility: hidden` or grey for registration).
-
-Do not modify base structure or add libraries.
--->
-
-<div class="poem">
-    <div> <em>a tear rolled down the right</em> </div>
-    <div> <em>another down the left</em> </div>
-    <br>
-    <div id="line-holy"> <em>whole and holy</em> </div>
-    <div id="line-unbereft"> <em>unbereft</em> </div>
-
-    <!-- Floating white overlay layer -->
-    <div class="overlay" id="overlay-holy"> <em>whole and holy</em> </div>
-    <div class="overlay" id="overlay-unbereft"> <em>unbereft</em> </div>
+  <div id="line">
+    <span>you are</span>
+    <span class="feather-wrapper">
+      <span id="feather-inline" class="feather-inline"></span>
+    </span>
+    <span>invited</span>
   </div>
 
+  <script src="feather.js"></script>
   <script>
-    window.addEventListener('load', () => {
-      const container = document.querySelector('.poem');
-      const baseHoly = document.getElementById('line-holy');
-      const baseUnbereft = document.getElementById('line-unbereft');
-      const holy = document.getElementById('overlay-holy');
-      const unbereft = document.getElementById('overlay-unbereft');
-
-      if (baseHoly && holy) {
-        holy.style.left = baseHoly.offsetLeft + 'px';
-        holy.style.top = baseHoly.offsetTop + 'px';
-      }
-      if (baseUnbereft && unbereft) {
-        unbereft.style.left = baseUnbereft.offsetLeft + 'px';
-        unbereft.style.top = baseUnbereft.offsetTop + 'px';
-      }
-
-      if (holy) setTimeout(() => holy.classList.add('show'), 1000);
-      if (unbereft) setTimeout(() => unbereft.classList.add('show'), 3000);
-    });
+    // Load falling feather
+    renderFeather(document.getElementById('feather-inline'));
   </script>
-
 </body>
 </html>
