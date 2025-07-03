@@ -1,189 +1,125 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>For Shae</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Shae</title>
+  <link rel="stylesheet" href="breathe.css">
+  <!--
+  We are currently using grey as the base text color to preserve the visual alignment of static anchor text.
+  This allows us to layer white floating text directly on top of its grey counterpart.
+  In future revisions, the base may be changed to black or transparent to preserve spatial integrity
+  while making the overlays feel like true arrivals.
+-->
+
 <style>
     body {
-      margin: 0;
-      padding: 2rem;
       background: black;
-      color: white;
+      color: grey;
       font-family: EB Garamond, serif;
       font-size: 1.2rem;
       line-height: 1.8;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
-    }
-    .block {
-      max-width: 600px;
-      margin-bottom: 4rem;
+      padding: 2rem;
     }
     .poem {
       text-align: left;
       width: fit-content;
-      margin-left: auto;
-      margin-right: auto;
-      margin-bottom: 4rem;
+      margin: 0 auto 4rem auto;
+      position: relative;
     }
     .poem div {
       text-align: left;
     }
-    .poem-right {
-      width: fit-content;
-      margin-left: auto;
-      margin-right: 10vw;
+    .overlay {
+      color: white;
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      pointer-events: none;
     }
-    .poem-right div {
-      white-space: nowrap;
-      text-align: left;
+    .show {
+      animation: fadeFloat 2s ease-out forwards;
     }
-    .poem-left {
-      width: fit-content;
-      margin-right: auto;
-      margin-left: 10vw;
-      margin-bottom: 4rem; /* Add vertical space below */
-    }
-
-    .poem-left div {
-      text-align: left;
-    }
-    .indent {
-      display: block;
-      text-indent: 1em;
-    }
-    .indent-2 {
-      display: block;
-      text-indent: 2em;
-    }
-    .indent-3 {
-      display: block;
-      text-indent: 3em;
-    }
-    .indent-4 {
-      display: block;
-      text-indent: 4em;
-    }
-    .indent-5 {
-      display: block;
-      text-indent: 5em;
-    }
-    .indent-6 {
-      display: block;
-      text-indent: 6em;
+    @keyframes fadeFloat {
+      0% {
+        opacity: 0;
+        transform: translate(-0.25em, -1em);
+      }
+      70% {
+        opacity: 1;
+        transform: translate(0.25em, 0);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(0, 0);
+      }
     }
   </style>
 </head>
 <body>
-<div class="block">
-<p><em>Dear Shae,</em></p>
-<p>
-      I’d like to start by sharing that your poetry moves me to tears,<br/>
-<span class="indent">and quite honestly,</span>
-<span class="indent-2">I don’t know if prose has ever touched me so deeply.</span>
-</p>
-</div>
+
+  <!-- Codex Instruction: All floating text animations should be added as non-destructive overlays using absolutely positioned elements with the class 'overlay'. These overlays must match the content and position of their base layer and animate via the 'fadeFloat' keyframe only. Timing logic must be defined in breathe.js or inline with 'show' class triggers. Never modify base HTML text or structure. -->
+
+  <!--
+Codex Instruction:
+
+Animate the word “unbereft” to float softly into view, using the motion and timing logic from `feather-test.html` in the emptiness-scroll project.
+
+Requirements:
+- Begin with the word offscreen above its final position.
+- Animation should include:
+  - Vertical descent with easing (`ease-out`)
+  - Gentle horizontal sway (e.g. translateX curve)
+  - Opacity fade-in from 0 → 1
+- Once the word lands, it should stop moving and remain visible.
+- The word must not disrupt the layout of surrounding text.
+- Do not use absolute positioning unless anchoring to a transparent counterpart.
+- Text styling:
+  - Font: EB Garamond
+  - Italic
+  - Font size: 1.2rem
+  - Color: #dddddd
+  - Background: black
+
+Place the floating word “unbereft” where it visually aligns with the placeholder beneath (which may be `visibility: hidden` or grey for registration).
+
+Do not modify base structure or add libraries.
+-->
+
 <div class="poem">
-<div><em>a tear rolled down the right</em></div>
-<div><em>another down the left</em></div>
-<br/>
-<div><em>whole and holy</em></div>
-<div><em>unbereft</em></div>
-</div>
-<div class="poem-left">
-<div><em>Something remembered</em></div>
-<div><em>And since forgotten</em></div>
-</div>
-<div class="block">
-<p>For me, this feels visceral;</p>
-<p style="margin-left: 2em;">somatic.</p>
-<p>
-      It reminds me of flying home to Minneapolis this past Sunday.<br/>
-<span class="indent">There was a sensation I noticed in my chest.
-        <span class="indent-2">It felt uncomfortable and a little overwhelming.
-          <span class="indent-3">Curious about this, I tried to describe it.</span>
-</span>
-</span>
-</p>
-<p style="margin-left: 4em; font-style: italic;">
-      “Like sitting by a warm fire… not hot. Just warm”
-    </p>
-<p>
-<span class="indent">I laughed when I realized that it didn’t sound uncomfortable at all.
-        <span class="indent-2">But it was like the difference between anxiety and excitement.
-          <span class="indent-3">So I opened to it, and softened around it…</span>
-</span>
-</span>
-</p>
-<p style="margin-left: 4em; font-style: italic;">
-<em>“you are welcome here… what are you trying to say?”</em>
-</p>
-</div>
-<div class="block">
-<p>
-<span class="indent">It didn’t need to be named yet, but I chose to soften around it.
-          <span class="indent-2">Something changed.
-            <span class="indent-3">Not the sensation, but the container holding it.</span>
-</span>
-</span>
-</p>
-</div>
-<!-- Right-aligned poetic pair -->
-<div class="poem">
-<div><em>a tear rolled down the left</em></div>
-<div><em>another down the right</em></div>
-<br/>
-<div><em>like twin stars</em></div>
-<div><em>falling in the night</em></div>
-</div>
-<!-- Left-aligned memory fragment -->
-<div class="poem-left" style="margin-top: 3rem;">
-<div><em>Walking in a memory</em></div>
-<div><em>Quiet forest</em></div>
-<div><em>Quick heartbeat</em></div>
-<div><em>Calling out, no sound</em></div>
-</div>
-<!-- Center-aligned prose -->
-<div class="block">
-<span style="display: block; margin-bottom: 0;">I felt this deeply:</span>
-<span class="indent">a rush of sensation along the back of my neck,</span>
-<span class="indent-2">then across my shoulders and then into my heartspace.</span>
-<span class="indent-3">I don’t need to give it meaning,</span>
-<span class="indent-4">but someplace within me remembers too.</span>
-</div>
-<!-- Top-left poem -->
-<div class="poem-left">
-<div><em>Awake from a dream</em></div>
-<div><em>Dreaming in the wake</em></div>
-<div><em>Of silence</em></div>
-<div><em>Between</em></div>
-<div><em>Depth and despair</em></div>
-<div><em>Holy and unfair</em></div>
-</div>
-<!-- Center-aligned reflective prose -->
-<div class="block">
-<span style="display: block; margin-bottom: 0;">Something about this hits like lightning.</span>
-<span class="indent">Hmmm... this <em>and</em> that.</span>
-<span class="indent-2">Like a glass of water, just out of reach.</span>
-</div>
-<!-- Bottom-left poem -->
-<div class="poem-left">
-<div><em>Right where</em></div>
-<div><em>We begin</em></div>
-<div><em>Silence</em></div>
-<div><em>Between</em></div>
-<div><em>Awake, in a dream</em></div>
-</div>
-<!-- Closing words -->
-<div class="block" style="text-align: center; margin-top: 4rem;">
-  I’m here with you.<br/>
-<span class="indent"> Let’s walk gently,</span>
-<span class="indent-2">one step at a time.</span>
-</div>
+    <div> <em>a tear rolled down the right</em> </div>
+    <div> <em>another down the left</em> </div>
+    <br>
+    <div id="line-holy"> <em>whole and holy</em> </div>
+    <div id="line-unbereft"> <em>unbereft</em> </div>
+
+    <!-- Floating white overlay layer -->
+    <div class="overlay" id="overlay-holy"> <em>whole and holy</em> </div>
+    <div class="overlay" id="overlay-unbereft"> <em>unbereft</em> </div>
+  </div>
+
+  <script>
+    window.addEventListener('load', () => {
+      const container = document.querySelector('.poem');
+      const baseHoly = document.getElementById('line-holy');
+      const baseUnbereft = document.getElementById('line-unbereft');
+      const holy = document.getElementById('overlay-holy');
+      const unbereft = document.getElementById('overlay-unbereft');
+
+      if (baseHoly && holy) {
+        holy.style.left = baseHoly.offsetLeft + 'px';
+        holy.style.top = baseHoly.offsetTop + 'px';
+      }
+      if (baseUnbereft && unbereft) {
+        unbereft.style.left = baseUnbereft.offsetLeft + 'px';
+        unbereft.style.top = baseUnbereft.offsetTop + 'px';
+      }
+
+      if (holy) setTimeout(() => holy.classList.add('show'), 1000);
+      if (unbereft) setTimeout(() => unbereft.classList.add('show'), 3000);
+    });
+  </script>
+
 </body>
 </html>
