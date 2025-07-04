@@ -146,7 +146,10 @@
 
   button.addEventListener('click', () => {
     button.style.opacity = 0;
-    setTimeout(() => button.style.display = 'none', 1000);
+    button.style.pointerEvents = 'none';
+    setTimeout(() => {
+      button.style.visibility = 'hidden';
+    }, 1000);
 
     if (audio) {
       audio.play().catch(err => {
