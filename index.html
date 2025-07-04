@@ -50,7 +50,6 @@
       font-style: italic;
       color: rgba(255, 255, 255, 0.85);
       text-align: center;
-      margin-top: 2rem;
       font-family: 'Georgia', serif;
     }
   </style>
@@ -66,7 +65,7 @@
     <div id="introMessage">this was not made to be seen, but intended to be found...</div>
   </div>
 
-  <div id="shaeWhisper">this silence has been waiting for your voice.</div>
+  <div id="shaeWhisper" class="overlay">this silence has been waiting for your voice.</div>
 
   <audio id="shaeHallelujah" src="hallelujah_enhanced_for_shae.wav"></audio>
 
@@ -131,8 +130,7 @@
               // Remove the text entirely after it fades out so it
               // doesn't flash again when the audio finishes
               setTimeout(() => whisper.remove(), 2000);
-            }, 20000);
-            audio.addEventListener('ended', () => whisper.remove());
+            }, 40000);
           });
         }
       }, 20000);
