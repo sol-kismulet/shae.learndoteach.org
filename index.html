@@ -126,7 +126,13 @@
             const fade = fadeAudio('in', 3000, 0.15);
             setTimeout(() => fadeAudio('out', 3000, 0.15), (audio.duration * 1000) - 3000);
             // Keep the whisper visible a bit longer
-            setTimeout(() => { whisper.style.opacity = 0; }, 20000);
+            setTimeout(() => {
+              whisper.style.opacity = 0;
+              // Remove the text entirely after it fades out so it
+              // doesn't flash again when the audio finishes
+              setTimeout(() => whisper.remove(), 2000);
+            }, 20000);
+            audio.addEventListener('ended', () => whisper.remove());
           });
         }
       }, 20000);
