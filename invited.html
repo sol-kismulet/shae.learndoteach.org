@@ -104,79 +104,18 @@
 </head>
 <body>
   <div id="line">
-    <span>you are</span>
-    <span class="feather-wrapper">
-      <span id="feather-inline" class="feather-inline"></span>
-    </span>
-    <span>invited</span>
-  
+  <span>you are</span>
+  <span class="feather-wrapper">
+    <span id="feather-inline" class="feather-inline"></span>
+  </span>
+  <span>invited</span>
+</div>
 
-<script src="feather.js"></script>
-<audio id="background-audio" loop style="position: absolute; top: 1rem; left: 1rem;">
-  <source src="opus-23-in-f-major.wav" type="audio/wav">
-  Your browser does not support the audio element.
-</audio>
-
-
-<button id="breathe-button" style="
-  margin-top: 2rem;
-  background: none;
-  border: 1px solid #666;
-  color: #dddddd;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.5rem;
-  padding: 0.5em 1em;
-  cursor: pointer;
-  transition: opacity 1s ease;
-  opacity: 0;
-  display: none;
-">
-  breathe
-</button>
-
-
-  <script>
-  const button = document.getElementById('breathe-button');
-  const audio = document.getElementById('background-audio');
-  const docLink = document.getElementById('doc-link');
-
-  button.addEventListener('click', () => {
-    button.style.opacity = 0;
-    setTimeout(() => button.style.display = 'none', 1000);
-
-    if (audio) {
-      audio.play().catch(err => {
-        console.warn('Audio play blocked:', err);
-      });
-    }
-
-    if (docLink) {
-      setTimeout(() => docLink.style.opacity = 1, 2000);
-    }
-  });
-
-  // Load falling feather
-    renderFeather(document.getElementById('feather-inline'));
-
-  // After feather lands, reveal the breathe button
-  setTimeout(() => {
-    button.style.display = 'block';
-    setTimeout(() => {
-      button.style.opacity = 1;
-    }, 100);
-  }, 6000);
-  </script>
-
-  <audio id="background-audio" loop style="position: absolute; top: 1rem; left: 1rem;">
-  <source src="opus-23-in-f-major.wav" type="audio/wav">
-  Your browser does not support the audio element.
-</audio>
-
-  <div id="doc-link">
-    <a href="https://docs.google.com/document/d/1WF0NB9fnxhDPEi_arGSp18Kev9KXdoX-IePIE8KJgCQ/edit" target="_blank" rel="noopener noreferrer">
-      Read or comment in the shared Google Doc
-    </a>
-  </div>
+<div id="doc-link" style="opacity: 0; margin-top: 4rem; transition: opacity 2s; color: #dddddd; font-size: 1.2rem;">
+  <a href="https://docs.google.com/document/d/1WF0NB9fnxhDPEi_arGSp18Kev9KXdoX-IePIE8KJgCQ/edit" target="_blank" rel="noopener noreferrer">
+    Read or comment in the shared Google Doc
+  </a>
+</div>
 
   
 </body>
