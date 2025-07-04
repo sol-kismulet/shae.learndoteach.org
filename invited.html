@@ -109,9 +109,11 @@
       <span id="feather-inline" class="feather-inline"></span>
     </span>
     <span>invited</span>
-  </div>
+  
 
-<!-- Breathe button -->
+<script src="feather.js"></script>
+
+$1
 <button id="breathe-button" style="
   margin-top: 2rem;
   background: none;
@@ -122,6 +124,8 @@
   padding: 0.5em 1em;
   cursor: pointer;
   transition: opacity 1s ease;
+  opacity: 0;
+  display: none;
 ">
   breathe
 </button>
@@ -149,6 +153,14 @@
 
   // Load falling feather
     renderFeather(document.getElementById('feather-inline'));
+
+  // After feather lands, reveal the breathe button
+  setTimeout(() => {
+    button.style.display = 'block';
+    setTimeout(() => {
+      button.style.opacity = 1;
+    }, 100);
+  }, 6000);
   </script>
 
   <audio id="background-audio" loop style="position: absolute; top: 1rem; left: 1rem;">
