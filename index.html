@@ -37,6 +37,12 @@
       pointer-events: none;
     }
 
+    #introMessage {
+      opacity: 0;
+      transition: opacity 2s ease;
+      text-align: center;
+    }
+
     #shaeWhisper {
       opacity: 0;
       transition: opacity 2s ease;
@@ -57,7 +63,7 @@
   </video>
 
   <div class="overlay">
-    <!-- Optional text like: “She opens the book...” -->
+    <div id="introMessage">this was not made to be seen, but intended to be found...</div>
   </div>
 
   <div id="shaeWhisper">this silence has been waiting for your voice.</div>
@@ -67,6 +73,7 @@
   <script>
     const audio = document.getElementById('shaeHallelujah');
     const whisper = document.getElementById('shaeWhisper');
+    const intro = document.getElementById('introMessage');
     let whisperShown = false;
 
     const fadeAudio = (direction, duration = 3000, target = 0.3) => {
@@ -98,8 +105,14 @@
       return interval;
     };
 
+    window.addEventListener('load', () => {
+      setTimeout(() => { intro.style.opacity = 1; }, 500);
+    });
+
     const startExperience = () => {
       document.removeEventListener('click', startExperience);
+      intro.style.opacity = 0;
+      setTimeout(() => { intro.style.display = 'none'; }, 2000);
 
       setTimeout(() => {
         if (!whisperShown) {
