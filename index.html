@@ -124,13 +124,13 @@
             // Fade the cello in quietly and out at the same level
             const fade = fadeAudio('in', 3000, 0.15);
             setTimeout(() => fadeAudio('out', 3000, 0.15), (audio.duration * 1000) - 3000);
-            // Keep the whisper visible a bit longer
-            setTimeout(() => {
-              whisper.style.opacity = 0;
-              // Remove the text entirely after it fades out so it
-              // doesn't flash again when the audio finishes
-              setTimeout(() => whisper.remove(), 2000);
-            }, 40000);
+              // Fade the whisper out when the audio ends
+              audio.addEventListener('ended', () => {
+                whisper.style.opacity = 0;
+                // Remove the text entirely after it fades out so it
+                // doesn't flash again when the audio finishes
+                setTimeout(() => whisper.remove(), 2000);
+              }, { once: true });
           });
         }
       }, 20000);
