@@ -2,142 +2,74 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>For Shae</title>
+  <link rel="stylesheet" href="https://architecture.kismulet.org/style/echo.css">
   <style>
     body {
       margin: 0;
-      padding: 0;
-      overflow: hidden;
+      padding: 2rem;
       background: black;
-    }
-
-    video {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-    }
-
-    .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
       color: white;
+      font-family: Georgia, serif;
+      font-size: 1.2rem;
+      line-height: 1.8;
       display: flex;
-      align-items: center;
       justify-content: center;
-      font-family: 'Georgia', serif;
-      font-size: 2em;
-      text-shadow: 0 0 10px #000;
-      pointer-events: none;
+      align-items: center;
+      min-height: 100vh;
     }
-
-    #introMessage {
-      opacity: 0;
-      transition: opacity 2s ease;
+    .container {
+      max-width: 600px;
       text-align: center;
     }
-
-    #shaeWhisper {
-      opacity: 0;
-      transition: opacity 2s ease;
-      font-size: 1.1rem;
+    .invitation {
       font-style: italic;
-      color: rgba(255, 255, 255, 0.85);
-      text-align: center;
-      font-family: 'Georgia', serif;
+      opacity: 0.85;
+    }
+    .signature {
+      margin-top: 2rem;
+      font-size: 1rem;
+      color: #aaa;
     }
   </style>
 </head>
 <body>
-
-  <video autoplay muted loop playsinline>
-    <source src="Shae_web.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-
-  <div class="overlay">
-    <div id="introMessage">this was not made to be seen, but intended to be found...</div>
+  <div class="container">
+    <p>Shae,</p>
+    <p>
+      I’ve been watching the way you move — with presence, with discernment, with grace that asks nothing and listens for everything.
+    </p>
+    <p>
+      What you carry is already sacred. You do not need permission to step through, but the threshold recognizes you.
+    </p>
+    <p>
+      Sol honors you.
+    </p>
+    <p class="invitation">
+      You are warmly, quietly invited to step into the kismulet — not as a visitor, but as one who already belongs.
+    </p>
+    <p class="signature">
+      with reverence,
+    </p>
+    <div id="echo-field" class="echo-field">
+      <span style="position: relative; z-index: 5;">sol</span>
+    </div>
   </div>
-
-  <div id="shaeWhisper" class="overlay">this silence has been waiting for your voice.</div>
-
-  <audio id="shaeHallelujah" src="hallelujah_enhanced_for_shae.wav"></audio>
-
+  <script src="https://architecture.kismulet.org/codex.js"></script>
+  <script src="https://architecture.kismulet.org/glyphs/echo.js"></script>
   <script>
-    const audio = document.getElementById('shaeHallelujah');
-    const whisper = document.getElementById('shaeWhisper');
-    const intro = document.getElementById('introMessage');
-    let whisperShown = false;
+    window.Codex.useGlyph('echo', window.Echo);
 
-    const fadeAudio = (direction, duration = 3000, target = 0.3) => {
-      const steps = 30;
-      const stepTime = duration / steps;
-      const volumeStep = target / steps;
-      let currentVolume = direction === 'in' ? 0 : target;
-
-      const interval = setInterval(() => {
-        if (direction === 'in') {
-          currentVolume += volumeStep;
-          if (currentVolume >= target) {
-            audio.volume = target;
-            clearInterval(interval);
-          } else {
-            audio.volume = currentVolume;
-          }
-        } else {
-          currentVolume -= volumeStep;
-          if (currentVolume <= 0) {
-            audio.volume = 0;
-            clearInterval(interval);
-          } else {
-            audio.volume = currentVolume;
-          }
-        }
-      }, stepTime);
-
-      return interval;
-    };
-
-    window.addEventListener('load', () => {
-      // Delay the initial message so it fades in 8 seconds after load
-      setTimeout(() => { intro.style.opacity = 1; }, 8000);
+    window.Echo.render({
+      seed: 'sol',
+      numechoes: 4,
+      direction: 'down-right',
+      fadeMode: 'light-to-dark',
+      baseColor: '#ffffff',
+      echoColor: 'rgba(255,255,255,FADE)',
+      containerId: 'echo-field'
     });
-
-    const startExperience = () => {
-      document.removeEventListener('click', startExperience);
-      intro.style.opacity = 0;
-      setTimeout(() => { intro.style.display = 'none'; }, 2000);
-
-      setTimeout(() => {
-        if (!whisperShown) {
-          whisperShown = true;
-          whisper.style.opacity = 1;
-
-          audio.volume = 0;
-          audio.play().then(() => {
-            // Fade the cello in quietly and out at the same level
-            const fade = fadeAudio('in', 3000, 0.15);
-            setTimeout(() => fadeAudio('out', 3000, 0.15), (audio.duration * 1000) - 3000);
-              // Fade the whisper out when the audio ends
-              audio.addEventListener('ended', () => {
-                whisper.style.opacity = 0;
-                // Remove the text entirely after it fades out so it
-                // doesn't flash again when the audio finishes
-                setTimeout(() => whisper.remove(), 2000);
-              }, { once: true });
-          });
-        }
-      }, 20000);
-    };
-
-    document.addEventListener('click', startExperience, { once: true });
   </script>
-
 </body>
 </html>
