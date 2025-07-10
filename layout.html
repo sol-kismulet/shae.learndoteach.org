@@ -3,42 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shae Layout</title>
+  <title>Shae Layout — Grid Precision</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      font-family: Georgia, serif;
       background-color: #ffffff;
+      font-family: Georgia, serif;
       position: relative;
       height: 100vh;
+      width: 100vw;
     }
 
-    #line1 {
+    .word {
       position: absolute;
-      top: 2rem;
-      left: 4rem;
-      font-size: 1.2rem;
-      font-weight: normal;
-      color: #111111;
-      white-space: nowrap;
-      text-align: left;
-    }
-
-    #line2 {
-      position: absolute;
-      top: 3.4rem;
-      left: 6rem;
       font-size: 1rem;
       font-weight: normal;
-      color: #c88ca0;
+      color: #111;
       white-space: nowrap;
-      text-align: left;
+    }
+
+    .rose {
+      color: #c88ca0;
+    }
+
+    .dim {
+      color: #999;
+    }
+
+    .italic {
+      font-style: italic;
     }
   </style>
 </head>
 <body>
-  <div id="line1">Shae,</div>
-  <div id="line2">It hasn’t been difficult to imagine the possibilities</div>
+
+  <!-- SAMPLE WORDS WITH POSITIONAL COORDINATES -->
+  <div class="word" style="top: 2rem; left: 4rem;">Shae,</div>
+  <div class="word rose" style="top: 3.4rem; left: 4.5rem;">It hasn’t been difficult to imagine the possibilities</div>
+  <div class="word dim" style="top: 5rem; left: 4.5rem;">difficult&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imagine&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;possibilities</div>
+  <div class="word dim" style="top: 6rem; left: 4.5rem;">a fantasy?</div>
+  <div class="word italic" style="top: 8rem; left: 4rem;">(quiet quandary...)</div>
+  <div class="word rose" style="top: 10rem; left: 4rem;">blessing these questions is the sacred start</div>
+
 </body>
 </html>
