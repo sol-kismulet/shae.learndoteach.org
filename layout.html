@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Precise Layout</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #ffffff;
+      font-family: 'Georgia', serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #111;
+      position: relative;
+    }
+
+    .line {
+      position: absolute;
+      white-space: nowrap;
+      font-weight: normal;
+    }
+
+    #line1 { top: 2rem; left: 4rem; color: #111; }
+    #line2 { top: 3.2rem; left: 6rem; color: #c88ca0; }
+    #line3 { top: 5rem; left: 2rem; color: #999; opacity: 0.3; }
+    #line4 { top: 6rem; left: 9rem; color: #999; opacity: 0.6; }
+    #line5 { top: 9rem; left: 5rem; color: #111; font-style: italic; }
+    #line6 { top: 12rem; left: 3rem; color: #b77c8d; }
+  </style>
+</head>
+<body>
+  <div id="line1" class="line">Shae,</div>
+  <div id="line2" class="line">It hasn’t been difficult to imagine the possibilities</div>
+  <div id="line3" class="line">difficult&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imagine&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;possibilities</div>
+  <div id="line4" class="line">a fantasy?</div>
+  <div id="line5" class="line">(quiet quandary...)</div>
+  <div id="line6" class="line">blessing these questions is the sacred start</div>
+</body>
+</html>
