@@ -68,7 +68,7 @@
     dilemma: { direction: 'down', clusters: [3] },
     challenge: { direction: 'up', clusters: [3] },
     puzzle: { direction: 'down', clusters: [3] },
-    or: { direction: 'down', clusters: [6] },
+    or: { direction: 'down' },
     blessing: { direction: 'up', clusters: [3] },
     questions: { direction: 'down', clusters: [3] },
     sacred: { direction: 'up', clusters: [3] },
@@ -85,56 +85,7 @@
     invited: { direction: 'down', clusters: [4] }
   };
 
-  const canonicalPoem = `Shae,
-
-                                           imagine
-                    been difficult       imagine       possibilities
-   It hasn’t           difficult    to imagine the   possibilities 
-                     difficult                     possibilities
-
-                 hard
-               hard to imagine                     a fantasy?
-       is it hard    imagine   if it were all just     fantasy
-                   imagine.                              fantasy
-                                     challenge
-                                   challenge
-                                 challenge?                or…
-          such a dilemma…                 a puzzle?        or…
-               dilemma                    puzzle           or…
-             dilemma                    puzzle             or…
-                                                           or…
-                a quiet quandary…                          or…
-
-                or…
-                                                           
-                or…
-              blessing                           sacred
-            blessing      questions is        sacred start
-          blessing these    questions   the sacred start
-                              questions          start
-
-                  with
-                with         and allow…              surrender
-        to be with… to hold…       allow     in full   surrender 
-                         hold        allow               surrender
-                           hold
-          know                                investment
-        know              is a wise         investment
-      know that this care        wise     investment
-                       care        wise
-                         care
-
-
-you are seen seen seen
-
-
-thank you
-
-
-you are invited
-        invited
-        invited
-        invited`;
+  const canonicalPoem = `...`;
 
   function tokenizeLine(line) {
     return line.split(/(\s+|\b)/).map(token => ({ token, clean: token.toLowerCase().replace(/[.,!?…]/g, '') }));
@@ -161,17 +112,27 @@ you are invited
       const instances = wordInstances[word] || [];
       let cursor = 0;
 
-      for (const clusterCount of clusters) {
-        const cluster = instances.slice(cursor, cursor + clusterCount);
-        const clusterSorted = direction === 'up' ? [...cluster].reverse() : cluster;
-
-        clusterSorted.forEach((ref, i) => {
+      if (!clusters || clusters.length === 0) {
+        const sorted = direction === 'up' ? [...instances].reverse() : instances;
+        sorted.forEach((ref, i) => {
           const level = Math.min(i, 3);
           const original = allTokens[ref.lineIndex][ref.tokenIndex].token;
           allTokens[ref.lineIndex][ref.tokenIndex].token = `<span class="echo-${level}">${original}</span>`;
         });
+      } else {
+        for (const clusterCount of clusters) {
+          const actualCount = clusterCount === Infinity ? instances.length - cursor : clusterCount;
+          const cluster = instances.slice(cursor, cursor + actualCount);
+          const clusterSorted = direction === 'up' ? [...cluster].reverse() : cluster;
 
-        cursor += clusterCount;
+          clusterSorted.forEach((ref, i) => {
+            const level = Math.min(i, 3);
+            const original = allTokens[ref.lineIndex][ref.tokenIndex].token;
+            allTokens[ref.lineIndex][ref.tokenIndex].token = `<span class="echo-${level}">${original}</span>`;
+          });
+
+          cursor += actualCount;
+        }
       }
     }
 
