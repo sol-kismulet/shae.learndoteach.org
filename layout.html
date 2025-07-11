@@ -32,12 +32,22 @@
       color: var(--foreground);
     }
 
-    .echo-0 { opacity: 1; color: var(--foreground); }
-    .echo-1 { opacity: 0.7; color: var(--foreground); }
-    .echo-2 { opacity: 0.4; color: var(--foreground); }
-    .echo-3 { opacity: 0.15; color: var(--foreground); }
+    .echo-up-0 { opacity: 0.15; color: var(--foreground); }
+    .echo-up-1 { opacity: 0.4; color: var(--foreground); }
+    .echo-up-2 { opacity: 0.7; color: var(--foreground); }
+    .echo-up-3 { opacity: 1; color: var(--foreground); }
 
-    .echo-3::selection {
+    .echo-down-0 { opacity: 1; color: var(--foreground); }
+    .echo-down-1 { opacity: 0.7; color: var(--foreground); }
+    .echo-down-2 { opacity: 0.4; color: var(--foreground); }
+    .echo-down-3 { opacity: 0.15; color: var(--foreground); }
+
+    .echo-right-0 { opacity: 1; color: var(--foreground); }
+    .echo-right-1 { opacity: 0.7; color: var(--foreground); }
+    .echo-right-2 { opacity: 0.4; color: var(--foreground); }
+    .echo-right-3 { opacity: 0.15; color: var(--foreground); }
+
+    .echo-up-0::selection, .echo-down-3::selection, .echo-right-3::selection {
       background: var(--foreground);
       color: var(--background);
     }
@@ -157,18 +167,45 @@ you are invited
   }
 
   function applyEchoHighlighting() {
-    const directionCounters = {};
-    let result = escapeHtml(originalPoem);
+    // Count and sort matches for direction-aware fading
+    const matchMap = {};
+    const matches = [];
 
-    for (const [word, direction] of Object.entries(echoWords)) {
-      directionCounters[word] = 0;
-      const regex = new RegExp(`\\b(${word})([\\.,\\?…]*)`, "gi");
-
-      result = result.replace(regex, (match, wordOnly, punctuation) => {
-        const level = directionCounters[word]++;
-        const className = `echo-${Math.min(level, 3)}`;
-        return `<span class="${className}">${wordOnly}</span>${punctuation}`;
+    const regex = new RegExp(`\\b(${Object.keys(echoWords).join('|')})([\\.,\\?…]*)`, 'gi');
+    let match;
+    while ((match = regex.exec(originalPoem)) !== null) {
+      matches.push({
+        word: match[1],
+        punctuation: match[2] || '',
+        index: match.index
       });
+    }
+
+    // Reverse matches for "up" echoes
+    const sortedMatches = matches.sort((a, b) => a.index - b.index);
+    const echoGroups = {};
+
+    for (const m of sortedMatches) {
+      const direction = echoWords[m.word.toLowerCase()];
+      if (!echoGroups[m.word]) echoGroups[m.word] = [];
+      echoGroups[m.word].push(m);
+    }
+
+    for (const [word, group] of Object.entries(echoGroups)) {
+      const dir = echoWords[word.toLowerCase()];
+      if (dir === 'up') group.reverse();
+    }
+
+    // Apply spans
+    let result = escapeHtml(originalPoem);
+    for (const [word, direction] of Object.entries(echoWords)) {
+      const group = echoGroups[word] || [];
+      for (let i = 0; i < group.length; i++) {
+        const level = Math.min(i, 3);
+        const matchText = `${group[i].word}${group[i].punctuation}`;
+        const span = `<span class="echo-${direction}-${level}">${group[i].word}</span>${group[i].punctuation}`;
+        result = result.replace(matchText, span);
+      }
     }
 
     poem.innerHTML = result;
