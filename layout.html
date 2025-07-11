@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shae Layout (Echo + Mode Toggle)</title>
+  <title>Shae Layout (Echo Model + Mode Toggle)</title>
   <style>
     body {
       margin: 0;
@@ -29,15 +29,17 @@
       color: #ffffff;
     }
 
-    .echo-0.light { color: #111111; }
-    .echo-1.light { color: #555555; }
-    .echo-2.light { color: #999999; }
-    .echo-3.light { color: #cccccc; }
-
-    .echo-0.dark { color: #ffffff; }
-    .echo-1.dark { color: #bbbbbb; }
-    .echo-2.dark { color: #777777; }
-    .echo-3.dark { color: #444444; }
+    /* Echo color gradients by direction */
+    .echo-up-0, .echo-down-0, .echo-right-0 { color: #ffffff; }
+    .echo-up-1 { color: #cccccc; }
+    .echo-up-2 { color: #999999; }
+    .echo-up-3 { color: #666666; }
+    .echo-down-1 { color: #bbbbbb; }
+    .echo-down-2 { color: #777777; }
+    .echo-down-3 { color: #444444; }
+    .echo-right-1 { color: #dddddd; }
+    .echo-right-2 { color: #aaaaaa; }
+    .echo-right-3 { color: #888888; }
 
     button {
       margin-top: 2rem;
@@ -77,7 +79,7 @@ Shae,
              dilemma                    puzzle             or…
                                                            or…
                 a quiet quandary…                          or…
-  
+
                 or…
                                                            
                 or…
@@ -115,45 +117,75 @@ you are invited
 </div>
 
 <script>
-  const body = document.body;
   const poem = document.getElementById("poem");
   const toggle = document.getElementById("toggle");
-  const target = "invited";
+  const body = document.body;
 
-  // Add theme class to poem initially
-  poem.classList.add("dark");
+  const echoWords = {
+    difficult: 'down',
+    imagine: 'up',
+    possibilities: 'down',
+    hard: 'up',
+    fantasy: 'down',
+    dilemma: 'down',
+    challenge: 'up',
+    puzzle: 'down',
+    or: 'down',
+    blessing: 'up',
+    questions: 'down',
+    sacred: 'up',
+    start: 'down',
+    with: 'up',
+    hold: 'down',
+    allow: 'down',
+    surrender: 'down',
+    know: 'up',
+    care: 'down',
+    wise: 'down',
+    investment: 'up',
+    seen: 'right',
+    invited: 'down',
+  };
 
-  // Highlight echo words
-  function highlightEchoes() {
-    const parts = poem.textContent.split(new RegExp(`\\b(${target})\\b`, "gi"));
-    let count = 0;
-    poem.innerHTML = parts.map(part => {
-      if (part.toLowerCase() === target.toLowerCase()) {
-        const className = `echo-${Math.min(count, 3)} ${body.classList.contains('dark') ? 'dark' : 'light'}`;
-        count++;
-        return `<span class="${className}">${part}</span>`;
-      }
-      return part;
-    }).join('');
+  function applyEchoHighlighting() {
+    const directionCounters = {};
+    let text = poem.textContent;
+
+    for (const [word, direction] of Object.entries(echoWords)) {
+      const regex = new RegExp(`\\b(${word})\\b`, "gi");
+      directionCounters[word] = 0;
+
+      text = text.replace(regex, (match) => {
+        const level = directionCounters[word];
+        directionCounters[word]++;
+        const className = `echo-${direction}-${Math.min(level, 3)}`;
+        return `<span class="${className}">${match}</span>`;
+      });
+    }
+
+    poem.innerHTML = text;
   }
 
-  highlightEchoes();
+  function updateThemeClasses() {
+    const isDark = body.classList.contains("dark");
+    const newTheme = isDark ? "light" : "dark";
 
-  // Toggle light/dark mode
-  toggle.addEventListener('click', () => {
-    const isDark = body.classList.contains('dark');
-    const newMode = isDark ? 'light' : 'dark';
+    body.classList.remove("dark", "light");
+    poem.classList.remove("dark", "light");
+    body.classList.add(newTheme);
+    poem.classList.add(newTheme);
 
-    body.classList.remove('dark', 'light');
-    poem.classList.remove('dark', 'light');
-    body.classList.add(newMode);
-    poem.classList.add(newMode);
+    toggle.textContent = isDark ? "Switch to Dark Mode" : "Switch to Light Mode";
 
-    toggle.textContent = isDark ? 'Switch to Dark Mode' : 'Switch to Light Mode';
+    // Rerun echo highlight with updated theme classes if needed
+    applyEchoHighlighting();
+  }
 
-    // Rerun echo highlighting to apply correct class
-    highlightEchoes();
-  });
+  // Initial highlight and setup
+  applyEchoHighlighting();
+
+  // Mode toggle handler
+  toggle.addEventListener("click", updateThemeClasses);
 </script>
 </body>
 </html>
