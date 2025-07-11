@@ -20,12 +20,12 @@
     }
 
     .light {
-      background: #ffffff;
+      background-color: #ffffff;
       color: #111111;
     }
 
     .dark {
-      background: #000000;
+      background-color: #000000;
       color: #ffffff;
     }
 
@@ -46,6 +46,7 @@
       font-size: 1rem;
       background: transparent;
       border: 1px solid currentColor;
+      color: inherit;
       cursor: pointer;
       transition: background 0.3s, color 0.3s;
     }
@@ -119,32 +120,39 @@ you are invited
   const toggle = document.getElementById("toggle");
   const target = "invited";
 
-  // Echo highlight logic
-  const parts = poem.innerText.split(new RegExp(`\\b(${target})\\b`, "gi"));
-  let count = 0;
-  poem.innerHTML = parts.map(part => {
-    if (part.toLowerCase() === target.toLowerCase()) {
-      const span = `<span class="echo-${Math.min(count, 3)} ${body.classList.contains('dark') ? 'dark' : 'light'}">${part}</span>`;
-      count++;
-      return span;
-    }
-    return part;
-  }).join('');
+  // Add theme class to poem initially
+  poem.classList.add("dark");
 
-  // Mode toggle logic
+  // Highlight echo words
+  function highlightEchoes() {
+    const parts = poem.textContent.split(new RegExp(`\\b(${target})\\b`, "gi"));
+    let count = 0;
+    poem.innerHTML = parts.map(part => {
+      if (part.toLowerCase() === target.toLowerCase()) {
+        const className = `echo-${Math.min(count, 3)} ${body.classList.contains('dark') ? 'dark' : 'light'}`;
+        count++;
+        return `<span class="${className}">${part}</span>`;
+      }
+      return part;
+    }).join('');
+  }
+
+  highlightEchoes();
+
+  // Toggle light/dark mode
   toggle.addEventListener('click', () => {
     const isDark = body.classList.contains('dark');
-    body.classList.toggle('dark', !isDark);
-    body.classList.toggle('light', isDark);
-    poem.classList.toggle('dark', !isDark);
-    poem.classList.toggle('light', isDark);
+    const newMode = isDark ? 'light' : 'dark';
+
+    body.classList.remove('dark', 'light');
+    poem.classList.remove('dark', 'light');
+    body.classList.add(newMode);
+    poem.classList.add(newMode);
+
     toggle.textContent = isDark ? 'Switch to Dark Mode' : 'Switch to Light Mode';
 
-    // Update classes on existing echoes
-    document.querySelectorAll('[class*="echo-"]').forEach(span => {
-      span.classList.toggle('dark', !isDark);
-      span.classList.toggle('light', isDark);
-    });
+    // Rerun echo highlighting to apply correct class
+    highlightEchoes();
   });
 </script>
 </body>
