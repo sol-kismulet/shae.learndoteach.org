@@ -59,30 +59,30 @@
   const poemContainer = document.getElementById("poem-container");
   const toggle = document.getElementById("toggle");
 
-  const echoWords = {
-    difficult: 'down',
-    imagine: 'up',
-    possibilities: 'down',
-    hard: 'up',
-    fantasy: 'down',
-    dilemma: 'down',
-    challenge: 'up',
-    puzzle: 'down',
-    or: 'down',
-    blessing: 'up',
-    questions: 'down',
-    sacred: 'up',
-    start: 'down',
-    with: 'up',
-    hold: 'down',
-    allow: 'down',
-    surrender: 'down',
-    know: 'up',
-    care: 'down',
-    wise: 'down',
-    investment: 'up',
-    seen: 'right',
-    invited: 'down'
+  const echoMap = {
+    imagine: { direction: 'up', clusters: [3, 3] },
+    difficult: { direction: 'down', clusters: [3] },
+    possibilities: { direction: 'down', clusters: [3] },
+    hard: { direction: 'up', clusters: [3] },
+    fantasy: { direction: 'down', clusters: [3] },
+    dilemma: { direction: 'down', clusters: [3] },
+    challenge: { direction: 'up', clusters: [3] },
+    puzzle: { direction: 'down', clusters: [3] },
+    or: { direction: 'down', clusters: [6] },
+    blessing: { direction: 'up', clusters: [3] },
+    questions: { direction: 'down', clusters: [3] },
+    sacred: { direction: 'up', clusters: [3] },
+    start: { direction: 'down', clusters: [3] },
+    with: { direction: 'up', clusters: [3] },
+    hold: { direction: 'down', clusters: [3] },
+    allow: { direction: 'down', clusters: [3] },
+    surrender: { direction: 'down', clusters: [3] },
+    know: { direction: 'up', clusters: [3] },
+    care: { direction: 'down', clusters: [3] },
+    wise: { direction: 'down', clusters: [3] },
+    investment: { direction: 'up', clusters: [3] },
+    seen: { direction: 'right', clusters: [3] },
+    invited: { direction: 'down', clusters: [4] }
   };
 
   const canonicalPoem = `Shae,
@@ -149,21 +149,30 @@ you are invited
       const tokens = tokenizeLine(line);
       allTokens.push(tokens);
       tokens.forEach(({ clean }, i) => {
-        if (echoWords[clean]) {
+        if (echoMap[clean]) {
           if (!wordInstances[clean]) wordInstances[clean] = [];
           wordInstances[clean].push({ lineIndex, tokenIndex: i });
         }
       });
     });
 
-    for (const [word, instances] of Object.entries(wordInstances)) {
-      const direction = echoWords[word];
-      const sorted = direction === 'up' ? [...instances].reverse() : instances;
-      sorted.forEach((ref, i) => {
-        const level = Math.min(i, 3);
-        const original = allTokens[ref.lineIndex][ref.tokenIndex].token;
-        allTokens[ref.lineIndex][ref.tokenIndex].token = `<span class="echo-${level}">${original}</span>`;
-      });
+    for (const [word, data] of Object.entries(echoMap)) {
+      const { direction, clusters } = data;
+      const instances = wordInstances[word] || [];
+      let cursor = 0;
+
+      for (const clusterCount of clusters) {
+        const cluster = instances.slice(cursor, cursor + clusterCount);
+        const clusterSorted = direction === 'up' ? [...cluster].reverse() : cluster;
+
+        clusterSorted.forEach((ref, i) => {
+          const level = Math.min(i, 3);
+          const original = allTokens[ref.lineIndex][ref.tokenIndex].token;
+          allTokens[ref.lineIndex][ref.tokenIndex].token = `<span class="echo-${level}">${original}</span>`;
+        });
+
+        cursor += clusterCount;
+      }
     }
 
     const html = allTokens.map(line => line.map(t => t.token).join('')).join("\n");
