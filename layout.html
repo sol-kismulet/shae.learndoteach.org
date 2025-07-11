@@ -3,29 +3,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shae Layout (Echo Highlight)</title>
+  <title>Shae Layout (Echo + Mode Toggle)</title>
   <style>
     body {
       margin: 0;
       padding: 2rem;
-      background: #fff;
       font-family: Georgia, serif;
+      transition: background-color 0.4s, color 0.4s;
     }
 
     pre {
       white-space: pre-wrap;
       font-size: 1rem;
-      color: #111;
       line-height: 1.6;
+      transition: color 0.4s;
     }
 
-    .echo-0 { color: #111111; }
-    .echo-1 { color: #555555; }
-    .echo-2 { color: #999999; }
-    .echo-3 { color: #cccccc; }
+    .light {
+      background: #ffffff;
+      color: #111111;
+    }
+
+    .dark {
+      background: #000000;
+      color: #ffffff;
+    }
+
+    .echo-0.light { color: #111111; }
+    .echo-1.light { color: #555555; }
+    .echo-2.light { color: #999999; }
+    .echo-3.light { color: #cccccc; }
+
+    .echo-0.dark { color: #ffffff; }
+    .echo-1.dark { color: #bbbbbb; }
+    .echo-2.dark { color: #777777; }
+    .echo-3.dark { color: #444444; }
+
+    button {
+      margin-top: 2rem;
+      font-family: Georgia, serif;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      background: transparent;
+      border: 1px solid currentColor;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .button-container {
+      text-align: center;
+    }
   </style>
 </head>
-<body>
+<body class="dark">
 <pre id="poem">
 Shae,
 
@@ -79,22 +109,43 @@ you are invited
         invited
 </pre>
 
+<div class="button-container">
+  <button id="toggle">Switch to Light Mode</button>
+</div>
+
 <script>
-  const pre = document.getElementById("poem");
+  const body = document.body;
+  const poem = document.getElementById("poem");
+  const toggle = document.getElementById("toggle");
   const target = "invited";
 
-  // Split content into text nodes and spans dynamically
-  const parts = pre.innerText.split(new RegExp(`\\b(${target})\\b`, "gi"));
+  // Echo highlight logic
+  const parts = poem.innerText.split(new RegExp(`\\b(${target})\\b`, "gi"));
   let count = 0;
-
-  pre.innerHTML = parts.map(part => {
+  poem.innerHTML = parts.map(part => {
     if (part.toLowerCase() === target.toLowerCase()) {
-      const className = `echo-${Math.min(count, 3)}`;
+      const span = `<span class="echo-${Math.min(count, 3)} ${body.classList.contains('dark') ? 'dark' : 'light'}">${part}</span>`;
       count++;
-      return `<span class="${className}">${part}</span>`;
+      return span;
     }
     return part;
   }).join('');
+
+  // Mode toggle logic
+  toggle.addEventListener('click', () => {
+    const isDark = body.classList.contains('dark');
+    body.classList.toggle('dark', !isDark);
+    body.classList.toggle('light', isDark);
+    poem.classList.toggle('dark', !isDark);
+    poem.classList.toggle('light', isDark);
+    toggle.textContent = isDark ? 'Switch to Dark Mode' : 'Switch to Light Mode';
+
+    // Update classes on existing echoes
+    document.querySelectorAll('[class*="echo-"]').forEach(span => {
+      span.classList.toggle('dark', !isDark);
+      span.classList.toggle('light', isDark);
+    });
+  });
 </script>
 </body>
 </html>
