@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shae Echo Layout (Unified)</title>
+  <title>HSR Echo Renderer</title>
   <style>
     :root {
       --foreground: #111111;
@@ -21,11 +21,12 @@
       color: var(--foreground);
       transition: background-color 0.4s, color 0.4s;
     }
-    #poem {
+    pre {
       white-space: pre-wrap;
       font-size: 1rem;
       line-height: 1.6;
       transition: color 0.4s;
+      color: var(--foreground);
     }
     .echo-0 { opacity: 1; color: var(--foreground); }
     .echo-1 { opacity: 0.7; color: var(--foreground); }
@@ -48,8 +49,43 @@
   </style>
 </head>
 <body class="dark">
-  <div id="poem">
-Shae,
+<pre id="poem-container"></pre>
+<div class="button-container">
+  <button id="toggle">Switch to Light Mode</button>
+</div>
+
+<script>
+  const body = document.body;
+  const poemContainer = document.getElementById("poem-container");
+  const toggle = document.getElementById("toggle");
+
+  const echoWords = {
+    difficult: 'down',
+    imagine: 'up',
+    possibilities: 'down',
+    hard: 'up',
+    fantasy: 'down',
+    dilemma: 'down',
+    challenge: 'up',
+    puzzle: 'down',
+    or: 'down',
+    blessing: 'up',
+    questions: 'down',
+    sacred: 'up',
+    start: 'down',
+    with: 'up',
+    hold: 'down',
+    allow: 'down',
+    surrender: 'down',
+    know: 'up',
+    care: 'down',
+    wise: 'down',
+    investment: 'up',
+    seen: 'right',
+    invited: 'down'
+  };
+
+  const canonicalPoem = `Shae,
 
                                            imagine
                     been difficult       imagine       possibilities
@@ -98,91 +134,51 @@ thank you
 you are invited
         invited
         invited
-        invited
-  </div>
+        invited`;
 
-  <div class="button-container">
-    <button id="toggle">Switch to Light Mode</button>
-  </div>
+  function tokenizeLine(line) {
+    return line.split(/(\s+|\b)/).map(token => ({ token, clean: token.toLowerCase().replace(/[.,!?…]/g, '') }));
+  }
 
-  <script>
-    const poem = document.getElementById("poem");
-    const toggle = document.getElementById("toggle");
-    const body = document.body;
+  function renderPoem(text) {
+    const lines = text.split("\n");
+    const allTokens = [];
+    const wordInstances = {};
 
-    const echoWords = {
-      difficult: 'down',
-      imagine: 'up',
-      possibilities: 'down',
-      hard: 'up',
-      fantasy: 'down',
-      dilemma: 'down',
-      challenge: 'up',
-      puzzle: 'down',
-      or: 'down',
-      blessing: 'up',
-      questions: 'down',
-      sacred: 'up',
-      start: 'down',
-      with: 'up',
-      hold: 'down',
-      allow: 'down',
-      surrender: 'down',
-      know: 'up',
-      care: 'down',
-      wise: 'down',
-      investment: 'up',
-      seen: 'right',
-      invited: 'down'
-    };
-
-    const originalPoem = poem.innerText;
-
-    function tokenize(text) {
-      return text.split(/(\s+|\b)/); // keep whitespace and word boundaries
-    }
-
-    function highlightEchoes() {
-      const tokens = tokenize(originalPoem);
-      const echoInstances = {};
-
-      // Count occurrences and track indices
-      tokens.forEach((t, i) => {
-        const word = t.toLowerCase().replace(/[.,!?…]/g, '');
-        if (echoWords[word]) {
-          if (!echoInstances[word]) echoInstances[word] = [];
-          echoInstances[word].push({ index: i, original: t });
+    lines.forEach((line, lineIndex) => {
+      const tokens = tokenizeLine(line);
+      allTokens.push(tokens);
+      tokens.forEach(({ clean }, i) => {
+        if (echoWords[clean]) {
+          if (!wordInstances[clean]) wordInstances[clean] = [];
+          wordInstances[clean].push({ lineIndex, tokenIndex: i });
         }
       });
-
-      // Replace tokens with spans based on direction and position
-      for (const [word, instances] of Object.entries(echoInstances)) {
-        const direction = echoWords[word];
-        const sorted = direction === 'up' ? [...instances].reverse() : instances;
-
-        sorted.forEach((instance, i) => {
-          const level = Math.min(i, 3);
-          tokens[instance.index] = `<span class="echo-${level}">${instance.original}</span>`;
-        });
-      }
-
-      poem.innerHTML = tokens.join('');
-    }
-
-    function updateTheme() {
-      const isDark = body.classList.contains("dark");
-      const newTheme = isDark ? "light" : "dark";
-      body.classList.remove("dark", "light");
-      body.classList.add(newTheme);
-      toggle.textContent = isDark ? "Switch to Dark Mode" : "Switch to Light Mode";
-    }
-
-    toggle.addEventListener("click", () => {
-      updateTheme();
-      highlightEchoes();
     });
 
-    highlightEchoes();
-  </script>
+    for (const [word, instances] of Object.entries(wordInstances)) {
+      const direction = echoWords[word];
+      const sorted = direction === 'up' ? [...instances].reverse() : instances;
+      sorted.forEach((ref, i) => {
+        const level = Math.min(i, 3);
+        const original = allTokens[ref.lineIndex][ref.tokenIndex].token;
+        allTokens[ref.lineIndex][ref.tokenIndex].token = `<span class="echo-${level}">${original}</span>`;
+      });
+    }
+
+    const html = allTokens.map(line => line.map(t => t.token).join('')).join("\n");
+    poemContainer.innerHTML = html;
+  }
+
+  toggle.addEventListener("click", () => {
+    const isDark = body.classList.contains("dark");
+    const next = isDark ? "light" : "dark";
+    body.classList.remove("dark", "light");
+    body.classList.add(next);
+    toggle.textContent = isDark ? "Switch to Dark Mode" : "Switch to Light Mode";
+  });
+
+  renderPoem(canonicalPoem);
+</script>
 </body>
 </html>
