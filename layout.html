@@ -105,6 +105,23 @@ you are invited
         invited
         invited
         invited`;
+
+  const poemContainer = document.getElementById("poem-container");
+  const toggle = document.getElementById("toggle");
+
+  function renderPoem(text) {
+    poemContainer.textContent = text;
+  }
+
+  toggle.addEventListener("click", () => {
+    const isDark = document.body.classList.contains("dark");
+    document.body.classList.toggle("dark", !isDark);
+    document.body.classList.toggle("light", isDark);
+    toggle.textContent = isDark ? "Switch to Dark Mode" : "Switch to Light Mode";
+  });
+
+  renderPoem(canonicalPoem);
+
 </script>
 </body>
 </html>
