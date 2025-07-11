@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shae Layout (Preformatted)</title>
+  <title>Shae Layout (Echo Highlight)</title>
   <style>
     body {
       margin: 0;
@@ -13,15 +13,20 @@
     }
 
     pre {
-      white-space: pre;
+      white-space: pre-wrap;
       font-size: 1rem;
       color: #111;
       line-height: 1.6;
     }
+
+    .echo-0 { color: #111111; }
+    .echo-1 { color: #555555; }
+    .echo-2 { color: #999999; }
+    .echo-3 { color: #cccccc; }
   </style>
 </head>
 <body>
-<pre>
+<pre id="poem">
 Shae,
 
                                            imagine
@@ -73,6 +78,23 @@ you are invited
         invited
         invited
 </pre>
+
+<script>
+  const pre = document.getElementById("poem");
+  const target = "invited";
+
+  // Split content into text nodes and spans dynamically
+  const parts = pre.innerText.split(new RegExp(`\\b(${target})\\b`, "gi"));
+  let count = 0;
+
+  pre.innerHTML = parts.map(part => {
+    if (part.toLowerCase() === target.toLowerCase()) {
+      const className = `echo-${Math.min(count, 3)}`;
+      count++;
+      return `<span class="${className}">${part}</span>`;
+    }
+    return part;
+  }).join('');
+</script>
 </body>
 </html>
-
