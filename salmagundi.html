@@ -101,11 +101,12 @@
         playBtn.textContent = 'play piece';
         audio.pause();
         const start = parseTime(startInput.value);
-        const end = parseTime(endInput.value);
         audio.currentTime = start;
         loopHandler = () => {
-          if (audio.currentTime >= end) {
-            audio.currentTime = start;
+          const s = parseTime(startInput.value);
+          const e = parseTime(endInput.value);
+          if (audio.currentTime >= e) {
+            audio.currentTime = s;
           }
         };
         audio.addEventListener('timeupdate', loopHandler);
