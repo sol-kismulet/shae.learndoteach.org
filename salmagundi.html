@@ -54,12 +54,22 @@
       height: 2em;
     }
 
+
     input[type="range"] {
       width: 10em;
     }
 
-    .progress-container {
+    .progress-wrapper {
       width: 80%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    .progress-container {
+      width: 100%;
       height: 0.4rem;
       background: #444;
       position: relative;
@@ -69,6 +79,10 @@
       height: 100%;
       background: white;
       width: 0;
+    }
+
+    #progress-slider {
+      width: 100%;
     }
 
     .marker {
@@ -102,10 +116,13 @@
     </div>
   </div>
 
-  <div class="progress-container">
-    <div id="progress" class="progress-bar"></div>
-    <div id="start-marker" class="marker"></div>
-    <div id="end-marker" class="marker"></div>
+  <div class="progress-wrapper" id="progress-wrapper">
+    <div class="progress-container">
+      <div id="progress" class="progress-bar"></div>
+      <div id="start-marker" class="marker"></div>
+      <div id="end-marker" class="marker"></div>
+    </div>
+    <input id="progress-slider" type="range" min="0" max="0" value="0" step="0.01">
   </div>
 
   <audio id="audio" preload="auto">
@@ -124,6 +141,8 @@
     const progress = document.getElementById('progress');
     const startMarker = document.getElementById('start-marker');
     const endMarker = document.getElementById('end-marker');
+    const progressSlider = document.getElementById('progress-slider');
+    const progressWrapper = document.getElementById('progress-wrapper');
 
     audio.preservesPitch = true;
     audio.mozPreservesPitch = true;
@@ -136,6 +155,11 @@
       if (!isNaN(audio.duration)) {
         const pct = (audio.currentTime / audio.duration) * 100;
         progress.style.width = pct + '%';
+        progressSlider.max = audio.duration;
+        progressSlider.value = audio.currentTime;
+        if (playActive && !loopActive) {
+          startInput.value = formatTime(audio.currentTime);
+        }
       }
     });
 
@@ -145,7 +169,23 @@
       return parseInt(parts[0], 10) * 60 + parseFloat(parts[1]);
     }
 
+    function formatTime(secs) {
+      const m = Math.floor(secs / 60);
+      const s = Math.floor(secs % 60);
+      return m + ':' + s.toString().padStart(2, '0');
+    }
+
     let loopHandler = null;
+
+    progressSlider.addEventListener('input', () => {
+      if (!isNaN(audio.duration)) {
+        audio.currentTime = parseFloat(progressSlider.value);
+        progress.style.width = (audio.currentTime / audio.duration) * 100 + '%';
+        if (playActive && !loopActive) {
+          startInput.value = formatTime(audio.currentTime);
+        }
+      }
+    });
 
     loopBtn.addEventListener('click', () => {
       if (!loopActive) {
@@ -159,7 +199,10 @@
           progress.style.width = (start / audio.duration * 100) + '%';
           startMarker.style.left = (start / audio.duration * 100) + '%';
           endMarker.style.left = (end / audio.duration * 100) + '%';
+          progressSlider.max = audio.duration;
+          progressSlider.value = start;
         }
+        progressWrapper.style.opacity = 0;
         startMarker.style.display = 'block';
         endMarker.style.display = 'block';
         loopHandler = () => {
@@ -180,6 +223,9 @@
         progress.style.width = (audio.currentTime / audio.duration * 100) + '%';
         startMarker.style.display = 'none';
         endMarker.style.display = 'none';
+        progressSlider.value = audio.currentTime;
+        progressSlider.max = audio.duration;
+        progressWrapper.style.opacity = 1;
         loopActive = false;
       }
     });
@@ -192,6 +238,8 @@
         startMarker.style.display = 'none';
         endMarker.style.display = 'none';
         progress.style.width = '0';
+        progressWrapper.style.opacity = 1;
+        progressSlider.value = 0;
         if (audio.paused) {
           audio.currentTime = 0;
         }
