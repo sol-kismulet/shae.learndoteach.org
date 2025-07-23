@@ -57,6 +57,28 @@
     input[type="range"] {
       width: 10em;
     }
+
+    .progress-container {
+      width: 80%;
+      height: 0.4rem;
+      background: #444;
+      position: relative;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: white;
+      width: 0;
+    }
+
+    .marker {
+      position: absolute;
+      top: -0.3rem;
+      height: 1rem;
+      width: 2px;
+      background: red;
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -80,6 +102,12 @@
     </div>
   </div>
 
+  <div class="progress-container">
+    <div id="progress" class="progress-bar"></div>
+    <div id="start-marker" class="marker"></div>
+    <div id="end-marker" class="marker"></div>
+  </div>
+
   <audio id="audio" preload="auto">
     <source src="salmagundi.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
@@ -93,6 +121,9 @@
     const endInput = document.getElementById('end');
     const speedInput = document.getElementById('speed');
     const speedDisplay = document.getElementById('speed-display');
+    const progress = document.getElementById('progress');
+    const startMarker = document.getElementById('start-marker');
+    const endMarker = document.getElementById('end-marker');
 
     audio.preservesPitch = true;
     audio.mozPreservesPitch = true;
@@ -100,6 +131,13 @@
 
     let loopActive = false;
     let playActive = false;
+
+    audio.addEventListener('timeupdate', () => {
+      if (!isNaN(audio.duration)) {
+        const pct = (audio.currentTime / audio.duration) * 100;
+        progress.style.width = pct + '%';
+      }
+    });
 
     function parseTime(t) {
       const parts = t.split(':');
@@ -115,7 +153,15 @@
         playBtn.textContent = 'play piece';
         audio.pause();
         const start = parseTime(startInput.value);
+        const end = parseTime(endInput.value);
         audio.currentTime = start;
+        if (!isNaN(audio.duration)) {
+          progress.style.width = (start / audio.duration * 100) + '%';
+          startMarker.style.left = (start / audio.duration * 100) + '%';
+          endMarker.style.left = (end / audio.duration * 100) + '%';
+        }
+        startMarker.style.display = 'block';
+        endMarker.style.display = 'block';
         loopHandler = () => {
           const s = parseTime(startInput.value);
           const e = parseTime(endInput.value);
@@ -131,6 +177,9 @@
         audio.pause();
         if (loopHandler) audio.removeEventListener('timeupdate', loopHandler);
         loopBtn.textContent = 'loop section';
+        progress.style.width = (audio.currentTime / audio.duration * 100) + '%';
+        startMarker.style.display = 'none';
+        endMarker.style.display = 'none';
         loopActive = false;
       }
     });
@@ -140,6 +189,9 @@
         loopActive = false;
         loopBtn.textContent = 'loop section';
         if (loopHandler) audio.removeEventListener('timeupdate', loopHandler);
+        startMarker.style.display = 'none';
+        endMarker.style.display = 'none';
+        progress.style.width = '0';
         if (audio.paused) {
           audio.currentTime = 0;
         }
